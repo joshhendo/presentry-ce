@@ -59,3 +59,13 @@ typings/
 
 # next.js build output
 .next
+
+dist/
+.idea
+
+# We use Typescript here
+**/*.js
+**/*.js.map
+
+# Well allow some javascript ;)
+!webpack.*.js
