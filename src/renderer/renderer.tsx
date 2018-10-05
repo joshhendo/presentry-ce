@@ -5,8 +5,8 @@ import * as ReactDOM from 'react-dom';
 import './styles.scss';
 
 ReactDOM.render(
-    <div>
-        <h4>Welcome to React, Electron and Typescript</h4>
-    </div>,
-    document.getElementById('app')
+  <div>
+    <h4>Welcome to React, Electron and Typescript</h4>
+  </div>,
+  document.getElementById('app')
 );
