@@ -1,10 +1,12 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
 let mainConfig = {
   mode: 'development',
   entry: './src/main/main.ts',
   target: 'electron-main',
+  devtool: 'inline-source-map',
   output: {
     filename: 'main.bundle.js',
     path: __dirname + '/dist',
@@ -20,7 +22,7 @@ let mainConfig = {
     rules: [
       {
         // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
-        test: /\.(ts)$/,
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'ts-loader',
@@ -48,6 +50,7 @@ let rendererConfig = {
   mode: 'development',
   entry: './src/renderer/renderer.tsx',
   target: 'electron-renderer',
+  devtool: 'inline-source-map',
   output: {
     filename: 'renderer.bundle.js',
     path: __dirname + '/dist',
@@ -57,7 +60,7 @@ let rendererConfig = {
     __filename: false,
   },
   resolve: {
-    extensions: ['.js', '.json', '.ts', '.tsx'],
+    extensions: ['.json', '.ts', '.tsx', '.js'],
   },
   module: {
     rules: [
@@ -92,6 +95,9 @@ let rendererConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/renderer/index.html'),
+    }),
+    new webpack.LoaderOptionsPlugin({
+      debug: true,
     }),
   ],
 };

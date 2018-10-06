@@ -6,8 +6,8 @@
         "moduleResolution": "node",
         "noImplicitAny": true,
         "noImplicitThis": true,
-        "sourceMap": true,
-        "target": "es2017"
+        "target": "es2017",
+        "inlineSourceMap": true
     },
     "exclude": ["node_modules"]
 }
