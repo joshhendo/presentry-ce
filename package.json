@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --config prettierrc.json --write \"**/*.ts\" \"**/*.tsx\" \"*.js\"",
+    "lint": "tslint -p tsconfig.json -e node_modules/**/* **/*",
     "start": "electron ./dist/main.bundle.js",
     "development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors",
     "production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"
@@ -32,6 +33,10 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",
     "ts-loader": "^5.2.1",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-microsoft-contrib": "^5.2.1",
+    "tslint-react": "^3.6.0",
     "typescript": "^3.1.1",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"
