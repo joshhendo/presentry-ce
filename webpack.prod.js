@@ -15,7 +15,7 @@ let mainConfig = {
     __filename: false,
   },
   resolve: {
-    extensions: ['.js', '.json', '.ts'],
+    extensions: ['.ts', '.js', '.json'],
   },
   module: {
     rules: [
@@ -100,4 +100,57 @@ let rendererConfig = {
   ],
 };
 
-module.exports = [mainConfig, rendererConfig];
+let presenterConfig = {
+  mode: 'production',
+  entry: './src/presenter/presenter.ts',
+  target: 'electron-renderer',
+  output: {
+    filename: 'presenter.bundle.js',
+    path: __dirname + '/dist',
+  },
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
+  resolve: {
+    extensions: ['.ts', '.json', '.js'],
+  },
+  module: {
+    rules: [
+      {
+        // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+        },
+      },
+      {
+        test: /\.(scss|css)$/,
+        use: ['style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap'],
+      },
+      {
+        test: /\.(jpg|png|svg|ico|icns)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
+      },
+      {
+        test: /\.(eot|ttf|woff|woff2)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, './src/presenter/canvas.html'),
+      filename: 'canvas.html',
+    }),
+  ],
+};
+
+module.exports = [mainConfig, rendererConfig, presenterConfig];
