@@ -6,7 +6,7 @@ let mainConfig = {
   mode: 'development',
   entry: './src/main/main.ts',
   target: 'electron-main',
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   output: {
     filename: 'main.bundle.js',
     path: __dirname + '/dist',
@@ -16,10 +16,17 @@ let mainConfig = {
     __filename: false,
   },
   resolve: {
-    extensions: ['.js', '.json', '.ts'],
+    extensions: ['.ts', '.js', '.json'],
   },
   module: {
     rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: {
+          loader: 'source-map-loader'
+        },
+        enforce: 'pre'
+      },
       {
         // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
         test: /\.(ts|tsx)$/,
@@ -50,7 +57,7 @@ let rendererConfig = {
   mode: 'development',
   entry: './src/renderer/renderer.tsx',
   target: 'electron-renderer',
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   output: {
     filename: 'renderer.bundle.js',
     path: __dirname + '/dist',
@@ -60,7 +67,7 @@ let rendererConfig = {
     __filename: false,
   },
   resolve: {
-    extensions: ['.json', '.ts', '.tsx', '.js'],
+    extensions: ['.tsx', '.json', '.ts', '.js'],
   },
   module: {
     rules: [

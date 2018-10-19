@@ -2,12 +2,12 @@
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
         "jsx": "react",
-        "module": "ESNext",
+        "module": "amd",
         "moduleResolution": "node",
         "noImplicitAny": true,
         "noImplicitThis": true,
-        "target": "es2017",
-        "inlineSourceMap": true
+        "target": "es6",
+        "sourceMap": true
     },
     "exclude": ["node_modules"]
 }
