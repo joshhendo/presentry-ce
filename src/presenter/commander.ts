@@ -6,12 +6,27 @@ import { screen, remote } from 'electron';
 import * as _ from 'lodash';
 import Display = Electron.Display;
 import * as events from 'events';
+import { KonvaCommand } from "../interop/KonvaCommand";
 
 export const commanderEmitter = new events.EventEmitter();
 
+export function width(): number {
+  if (state.window) {
+    return state.window.getSize()[0];
+  }
+  return 0;
+}
+
+export function height(): number {
+  if (state.window) {
+    return state.window.getSize()[1];
+  }
+  return 0;
+}
+
 const state = {
   active: false,
-  window: null as any,
+  window: null as Electron.BrowserWindow,
 };
 
 export function LaunchPresentation() {
@@ -35,7 +50,7 @@ export function LaunchPresentation() {
   );
 
   if (otherDisplay) {
-    let presentationWindow = new remote.BrowserWindow({
+    let presentationWindow: Electron.BrowserWindow = new remote.BrowserWindow({
       frame: false,
       autoHideMenuBar: true,
       fullscreen: true,
@@ -47,7 +62,8 @@ export function LaunchPresentation() {
     presentationWindow.webContents.on('did-finish-load', () => {
       presentationWindow.show();
       presentationWindow.focus();
-      presentationWindow.webContents.send('message', 'hello second window');
+      // presentationWindow.webContents.send('message', 'hello second window');
+      // presentationWindow.webContents.openDevTools();
     });
     presentationWindow.on('closed', () => {
       (presentationWindow as any) = null;
@@ -60,4 +76,12 @@ export function LaunchPresentation() {
   } else {
     alert('Error starting up');
   }
+}
+
+export function sendCommand(data: KonvaCommand) {
+  if (!state.window) {
+    return;
+  }
+
+  state.window.webContents.send('message', JSON.stringify(data));
 }
