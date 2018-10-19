@@ -6,7 +6,7 @@ import { screen, remote } from 'electron';
 import * as _ from 'lodash';
 import Display = Electron.Display;
 import * as events from 'events';
-import { KonvaCommand } from "../interop/KonvaCommand";
+import { KonvaCommand } from '../interop/KonvaCommand';
 
 export const commanderEmitter = new events.EventEmitter();
 

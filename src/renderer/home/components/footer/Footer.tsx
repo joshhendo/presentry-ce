@@ -1,8 +1,9 @@
 import * as React from 'react';
 import './Footer.scss';
 import * as commander from '../../../../presenter/commander';
-import * as Konva from "konva";
-import { KonvaCommand } from "../../../../interop/KonvaCommand";
+import * as Konva from 'konva';
+import { KonvaCommand } from '../../../../interop/KonvaCommand';
+import { loadFile } from "../../../../components/file-reader/file-reader";
 
 /*
   x: 20,
@@ -16,9 +17,9 @@ import { KonvaCommand } from "../../../../interop/KonvaCommand";
   align: 'center'
  */
 
-
 export default class Footer extends React.Component<any, any> {
   onClicked = () => {
+    const file = loadFile();
 
     const command: KonvaCommand = {
       type: 'text',
@@ -27,21 +28,23 @@ export default class Footer extends React.Component<any, any> {
       data: {
         x: 20,
         y: 60,
-        text: 'COMPLEX TEXT\n\nAll the world\'s a stage, and all the men and women merely players. They have their exits and their entrances.',
-        fontSize: 80,
+        text: file.presentations[0].data.lyrics[0].slides[0].join('\n'),
+        fontSize: 130,
         fontFamily: 'Calibri',
         fill: '#555',
         width: commander.width(),
         padding: 20,
         align: 'center',
-        id: 'simple-text'
-      }
+        id: 'simple-text',
+      },
     };
 
     commander.sendCommand(command);
   };
 
   onClicked2 = () => {
+    const file = loadFile();
+
     const command: KonvaCommand = {
       type: 'tween',
       id: 'simple-text',
@@ -61,8 +64,8 @@ export default class Footer extends React.Component<any, any> {
       data: {
         x: 20,
         y: 60,
-        text: 'These are the next lyrics to the song!!!!',
-        fontSize: 80,
+        text: file.presentations[0].data.lyrics[1].slides[0].join('\n'),
+        fontSize: 130,
         fontFamily: 'Calibri',
         fill: '#555',
         width: commander.width(),
@@ -70,7 +73,7 @@ export default class Footer extends React.Component<any, any> {
         align: 'center',
         id: 'simple-text-2',
         opacity: 0,
-      }
+      },
     };
 
     commander.sendCommand(command2);
@@ -82,7 +85,7 @@ export default class Footer extends React.Component<any, any> {
       data: {
         duration: 0.2,
         opacity: 1,
-      }
+      },
     };
 
     commander.sendCommand(command3);

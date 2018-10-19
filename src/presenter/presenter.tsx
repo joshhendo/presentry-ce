@@ -1,10 +1,10 @@
 const ipc = require('electron').ipcRenderer;
-import * as Konva from "konva";
+import * as Konva from 'konva';
 
 const stage = new Konva.Stage({
   container: 'root',
   width: window.innerWidth,
-  height: window.innerHeight
+  height: window.innerHeight,
 });
 
 ipc.on('message', (event: any, message: any) => {
@@ -23,9 +23,7 @@ ipc.on('message', (event: any, message: any) => {
     });
 
     tween.play();
-  }else {
+  } else {
     return;
   }
-
-
 });
