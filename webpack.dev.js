@@ -112,7 +112,7 @@ let rendererConfig = {
 
 let presenterConfig = {
   mode: 'development',
-  entry: './src/presenter/presenter.ts',
+  entry: './src/presenter/presenter.tsx',
   target: 'electron-renderer',
   devtool: 'source-map',
   output: {
