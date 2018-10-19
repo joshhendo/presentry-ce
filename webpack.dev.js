@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 let mainConfig = {
   mode: 'development',
@@ -23,9 +24,9 @@ let mainConfig = {
       {
         test: /\.(js|jsx)$/,
         use: {
-          loader: 'source-map-loader'
+          loader: 'source-map-loader',
         },
-        enforce: 'pre'
+        enforce: 'pre',
       },
       {
         // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
@@ -49,6 +50,12 @@ let mainConfig = {
           name: '[path][name].[ext]',
         },
       },
+      {
+        test: /\.(html)$/,
+        use: {
+          loader: 'html-loader'
+        }
+      }
     ],
   },
 };
@@ -96,7 +103,7 @@ let rendererConfig = {
         options: {
           name: '[path][name].[ext]',
         },
-      },
+      }
     ],
   },
   plugins: [
@@ -106,6 +113,9 @@ let rendererConfig = {
     new webpack.LoaderOptionsPlugin({
       debug: true,
     }),
+    new CopyWebpackPlugin([
+      {from :'./src/presenter/static/presentation-canvas.html', to: './presentation-canvas.html'}
+    ])
   ],
 };
 
