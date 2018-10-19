@@ -3,13 +3,15 @@ import './WorkArea.scss';
 import WorkAreaNav from './WorkAreaNav';
 import WorkAreaCanvas from './WorkAreaCanvas';
 
-const WorkArea = () => {
-  return (
-    <div className="work-area-container">
+export default class WorkArea extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+  }
+
+  render() {
+    return <div className="work-area-container">
       <WorkAreaNav />
       <WorkAreaCanvas />
     </div>
-  );
-};
-
-export default WorkArea;
+  }
+}

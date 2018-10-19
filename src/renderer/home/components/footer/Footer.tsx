@@ -3,7 +3,7 @@ import './Footer.scss';
 import * as commander from '../../../../presenter/commander';
 import * as Konva from 'konva';
 import { KonvaCommand } from '../../../../interop/KonvaCommand';
-import { loadFile } from "../../../../components/file-reader/file-reader";
+import { loadFile } from '../../../../components/presentations/file-reader';
 
 /*
   x: 20,
