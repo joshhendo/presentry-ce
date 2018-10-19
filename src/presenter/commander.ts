@@ -5,6 +5,9 @@ This file 'commands' the presentation window. As such, everything should go thro
 import { screen, remote } from 'electron';
 import * as _ from 'lodash';
 import Display = Electron.Display;
+import * as events from 'events';
+
+export const commanderEmitter = new events.EventEmitter();
 
 const state = {
   active: false,
@@ -12,6 +15,10 @@ const state = {
 };
 
 export function LaunchPresentation() {
+  if (state.active) {
+    return;
+  }
+
   const dirName = (remote.getCurrentWindow() as any).dirName;
   const displays = screen.getAllDisplays();
   if (displays.length < 2) {
@@ -44,6 +51,7 @@ export function LaunchPresentation() {
 
     state.active = true;
     state.window = presentationWindow;
+    commanderEmitter.emit('active', true);
   } else {
     alert('Error starting up');
   }
