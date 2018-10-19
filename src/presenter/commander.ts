@@ -26,8 +26,13 @@ export function LaunchPresentation() {
     return;
   }
 
-  const currentDisplay = screen.getDisplayNearestPoint(screen.getCursorScreenPoint());
-  const otherDisplay = _.find(displays, (d: Display) => d.id != currentDisplay.id);
+  const currentDisplay = screen.getDisplayNearestPoint(
+    screen.getCursorScreenPoint()
+  );
+  const otherDisplay = _.find(
+    displays,
+    (d: Display) => d.id != currentDisplay.id
+  );
 
   if (otherDisplay) {
     let presentationWindow = new remote.BrowserWindow({
@@ -37,7 +42,7 @@ export function LaunchPresentation() {
       x: otherDisplay.bounds.x + 50,
       y: otherDisplay.bounds.y + 50,
       parent: remote.getCurrentWindow(),
-      backgroundColor: '#000000'
+      backgroundColor: '#000000',
     });
     presentationWindow.webContents.on('did-finish-load', () => {
       presentationWindow.show();
@@ -47,7 +52,7 @@ export function LaunchPresentation() {
     presentationWindow.on('closed', () => {
       (presentationWindow as any) = null;
     });
-    presentationWindow.loadURL(`file://${ __dirname}/presentation-canvas.html`);
+    presentationWindow.loadURL(`file://${__dirname}/canvas.html`);
 
     state.active = true;
     state.window = presentationWindow;

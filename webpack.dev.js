@@ -53,9 +53,9 @@ let mainConfig = {
       {
         test: /\.(html)$/,
         use: {
-          loader: 'html-loader'
-        }
-      }
+          loader: 'html-loader',
+        },
+      },
     ],
   },
 };
@@ -103,20 +103,84 @@ let rendererConfig = {
         options: {
           name: '[path][name].[ext]',
         },
-      }
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/renderer/index.html'),
     }),
+
     new webpack.LoaderOptionsPlugin({
       debug: true,
     }),
-    new CopyWebpackPlugin([
-      {from :'./src/presenter/static/presentation-canvas.html', to: './presentation-canvas.html'}
-    ])
+    /*new CopyWebpackPlugin([
+      {
+        from: './src/presenter/static/presentation-canvas.html',
+        to: './presentation-canvas.html',
+      },
+    ]),*/
   ],
 };
 
-module.exports = [mainConfig, rendererConfig];
+let presenterConfig = {
+  mode: 'development',
+  entry: './src/presenter/presenter.ts',
+  target: 'web',
+  devtool: 'source-map',
+  output: {
+    filename: 'presenter.bundle.js',
+    path: __dirname + '/dist',
+  },
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
+  resolve: {
+    extensions: ['.ts', '.json', '.js'],
+  },
+  module: {
+    rules: [
+      {
+        // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+        },
+      },
+      {
+        test: /\.(scss|css)$/,
+        use: ['style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap'],
+      },
+      {
+        test: /\.(jpg|png|svg|ico|icns)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
+      },
+      {
+        test: /\.(eot|ttf|woff|woff2)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(
+        __dirname,
+        './src/presenter/static/presentation-canvas.html'
+      ),
+      filename: 'canvas.html',
+    }),
+    new webpack.LoaderOptionsPlugin({
+      debug: true,
+    }),
+  ],
+};
+
+module.exports = [mainConfig, rendererConfig, presenterConfig];

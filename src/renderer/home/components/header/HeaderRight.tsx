@@ -16,7 +16,7 @@ export default class HeaderRight extends React.Component<any, any> {
       that.setState({
         presentationActive: active,
       });
-    })
+    });
   }
 
   launchPresentation = () => {
@@ -24,15 +24,13 @@ export default class HeaderRight extends React.Component<any, any> {
   };
 
   render() {
-    let presentationButton = <button onClick={this.launchPresentation}>Launch</button>;
+    let presentationButton = (
+      <button onClick={this.launchPresentation}>Launch</button>
+    );
     if (this.state.presentationActive) {
       presentationButton = <button>Stop</button>;
     }
 
-    return (
-      <div className="header-right-container">
-        {presentationButton}
-      </div>
-    );
+    return <div className="header-right-container">{presentationButton}</div>;
   }
 }
