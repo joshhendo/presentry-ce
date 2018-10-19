@@ -50,12 +50,6 @@ let mainConfig = {
           name: '[path][name].[ext]',
         },
       },
-      {
-        test: /\.(html)$/,
-        use: {
-          loader: 'html-loader',
-        },
-      },
     ],
   },
 };
@@ -110,16 +104,9 @@ let rendererConfig = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/renderer/index.html'),
     }),
-
     new webpack.LoaderOptionsPlugin({
       debug: true,
     }),
-    /*new CopyWebpackPlugin([
-      {
-        from: './src/presenter/static/canvas.html',
-        to: './canvas.html',
-      },
-    ]),*/
   ],
 };
 
@@ -171,10 +158,7 @@ let presenterConfig = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(
-        __dirname,
-        './src/presenter/canvas.html'
-      ),
+      template: path.resolve(__dirname, './src/presenter/canvas.html'),
       filename: 'canvas.html',
     }),
     new webpack.LoaderOptionsPlugin({
