@@ -116,8 +116,8 @@ let rendererConfig = {
     }),
     /*new CopyWebpackPlugin([
       {
-        from: './src/presenter/static/presentation-canvas.html',
-        to: './presentation-canvas.html',
+        from: './src/presenter/static/canvas.html',
+        to: './canvas.html',
       },
     ]),*/
   ],
@@ -126,7 +126,7 @@ let rendererConfig = {
 let presenterConfig = {
   mode: 'development',
   entry: './src/presenter/presenter.ts',
-  target: 'web',
+  target: 'electron-renderer',
   devtool: 'source-map',
   output: {
     filename: 'presenter.bundle.js',
@@ -173,7 +173,7 @@ let presenterConfig = {
     new HtmlWebpackPlugin({
       template: path.resolve(
         __dirname,
-        './src/presenter/static/presentation-canvas.html'
+        './src/presenter/canvas.html'
       ),
       filename: 'canvas.html',
     }),
