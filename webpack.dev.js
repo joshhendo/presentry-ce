@@ -56,7 +56,7 @@ let mainConfig = {
 
 let rendererConfig = {
   mode: 'development',
-  entry: './src/renderer/renderer.tsx',
+  entry: './src/views/renderer.tsx',
   target: 'electron-renderer',
   devtool: 'source-map',
   output: {
@@ -102,7 +102,7 @@ let rendererConfig = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './src/renderer/index.html'),
+      template: path.resolve(__dirname, './src/views/index.html'),
     }),
     new webpack.LoaderOptionsPlugin({
       debug: true,

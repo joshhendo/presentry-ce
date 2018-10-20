@@ -1,6 +1,7 @@
 export interface KonvaCommand {
-  type: 'text' | 'tween';
+  type: 'layer' | 'text' | 'tween';
   id: string;
-  action: 'create' | 'delete';
+  layerId?: string;
+  action: 'create' | 'tween';
   data: any;
 }

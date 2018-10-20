@@ -19,7 +19,7 @@ import { loadFile } from '../../../../components/presentations/file-reader';
 
 export default class Footer extends React.Component<any, any> {
   onClicked = () => {
-    const file = loadFile();
+    /*const file = loadFile();
 
     const command: KonvaCommand = {
       type: 'text',
@@ -28,7 +28,29 @@ export default class Footer extends React.Component<any, any> {
       data: {
         x: 20,
         y: 60,
-        text: file.presentations[0].data.lyrics[0].slides[0].join('\n'),
+        text: file.presentations[0].data.lyrics[0].slides.join('\n'),
+        fontSize: 130,
+        fontFamily: 'Calibri',
+        fill: '#555',
+        width: commander.width(),
+        padding: 20,
+        align: 'center',
+        id: 'simple-text',
+      },
+    };
+
+    commander.sendCommand(command);*/
+
+    commander.createLayer('mylayer');
+
+    const command: KonvaCommand = {
+      type: 'text',
+      id: 'mylayer',
+      action: 'create',
+      data: {
+        x: 20,
+        y: 60,
+        text: 'asdfasdflasdjkflasdjlaskdflajadfslfkj',
         fontSize: 130,
         fontFamily: 'Calibri',
         fill: '#555',
@@ -43,7 +65,7 @@ export default class Footer extends React.Component<any, any> {
   };
 
   onClicked2 = () => {
-    const file = loadFile();
+    /*const file = loadFile();
 
     const command: KonvaCommand = {
       type: 'tween',
@@ -64,7 +86,7 @@ export default class Footer extends React.Component<any, any> {
       data: {
         x: 20,
         y: 60,
-        text: file.presentations[0].data.lyrics[1].slides[0].join('\n'),
+        text: file.presentations[0].data.lyrics[1].slides.join('\n'),
         fontSize: 130,
         fontFamily: 'Calibri',
         fill: '#555',
@@ -88,7 +110,9 @@ export default class Footer extends React.Component<any, any> {
       },
     };
 
-    commander.sendCommand(command3);
+    commander.sendCommand(command3);*/
+
+    commander.deleteLayer('mylayer');
   };
 
   render() {

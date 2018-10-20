@@ -1,0 +1,27 @@
+.work-area-canvas-left-container {
+  min-width:200px;
+  background-color: #cfc;
+  resize: horizontal;
+  overflow: auto;
+
+  .list {
+    list-style: none;
+    margin: 0;
+
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-flow: row wrap;
+
+    justify-content: space-around;
+    -webkit-flex-flow: column wrap;
+    flex-flow: column wrap;
+    padding: 0;
+  }
+
+  .selected {
+    background: deepskyblue;
+  }
+}
+
