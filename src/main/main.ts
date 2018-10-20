@@ -34,7 +34,9 @@ function createWindow() {
   });
 
   ['PageDown', 'PageUp'].forEach(key => {
-    globalShortcut.register(key, () => mainWindow.webContents.send('keypress', key));
+    globalShortcut.register(key, () =>
+      mainWindow.webContents.send('keypress', key)
+    );
   });
 }
 
