@@ -1,6 +1,6 @@
 import * as Immutable from 'immutable';
 import * as utils from 'flux/utils';
-import StateActionTypes, {Keys} from './StateActionTypes';
+import StateActionTypes, { Keys } from './StateActionTypes';
 import Dispatcher from '../InternalDispatcher';
 
 class StateStore extends utils.ReduceStore<any, any> {
@@ -14,9 +14,13 @@ class StateStore extends utils.ReduceStore<any, any> {
 
   reduce(state: Immutable.Map<any, any>, action: any) {
     let updatedState = state;
-    switch(action.type) {
+    switch (action.type) {
       case StateActionTypes.TOGGLE_PRESENTATION_WINDOW:
-        return updatedState.update(Keys.SHOW_PRESENTATION_WINDOW, true, x => !x);
+        return updatedState.update(
+          Keys.SHOW_PRESENTATION_WINDOW,
+          true,
+          x => !x
+        );
         break;
       default:
         return updatedState;

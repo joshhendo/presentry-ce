@@ -6,8 +6,7 @@ export const Actions = {
     Dispatcher.dispatch({
       type: StateActionTypes.TOGGLE_PRESENTATION_WINDOW,
     });
-  }
+  },
 };
 
 export default Actions;
-

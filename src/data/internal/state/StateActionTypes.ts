@@ -5,5 +5,5 @@ const ActionTypes = {
 export default ActionTypes;
 
 export const Keys = {
-  SHOW_PRESENTATION_WINDOW: 'SHOW_PRESENTATION_WINDOW'
+  SHOW_PRESENTATION_WINDOW: 'SHOW_PRESENTATION_WINDOW',
 };

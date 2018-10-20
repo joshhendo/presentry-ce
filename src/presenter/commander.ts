@@ -78,12 +78,20 @@ export function LaunchPresentation() {
       presentationWindow.show();
       presentationWindow.focus();
       // presentationWindow.webContents.send('message', 'hello second window');
-      // presentationWindow.webContents.openDevTools();
+      //presentationWindow.webContents.openDevTools();
     });
     presentationWindow.on('closed', () => {
       (presentationWindow as any) = null;
     });
     presentationWindow.loadURL(`file://${__dirname}/canvas.html`);
+
+    /*
+    Ok so playing videos with audio requires a "user gesture"  to be performed, otherwiese you get:
+      play() failed because the user didn't interact with the document first.
+    This line of code allows a "user gesture" to be performed, so you don't get this error.
+    It seems to work.
+    */
+    presentationWindow.webContents.executeJavaScript('1===1', true);
 
     state.active = true;
     state.window = presentationWindow;
@@ -216,4 +224,12 @@ export function sendCommand(data: KonvaCommand) {
   }
 
   state.window.webContents.send('message', JSON.stringify(data));
+}
+
+export function sendVideo() {
+  if (!state.window) {
+    return;
+  }
+
+  state.window.webContents.send('video', {});
 }

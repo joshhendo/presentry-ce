@@ -23,7 +23,7 @@ class HeaderRightContainer extends React.Component<any, any> {
         states={this.state.states}
         onTogglePresentationWindow={this.state.onTogglePresentationWindow}
       />
-    )
+    );
   }
 }
 

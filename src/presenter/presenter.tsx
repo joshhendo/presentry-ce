@@ -1,5 +1,8 @@
 const ipc = require('electron').ipcRenderer;
 import * as Konva from 'konva';
+import * as $ from 'jquery';
+
+$('#video-container').hide();
 
 const stage = new Konva.Stage({
   container: 'root',
@@ -44,4 +47,23 @@ ipc.on('message', (event: any, message: any) => {
   } else {
     return;
   }
+});
+
+ipc.on('video', (event: any, message: any) => {
+  $('#root').hide();
+  $('#video-container').show();
+
+  const video = $('#video');
+  const mp4 = $('#mp4')
+
+  mp4.attr('src', 'C:\\Users\\Hendo\\Desktop\\Wildlife.mp4');
+
+  (video.get(0) as any).load();
+  (video.get(0) as any).play();
+
+  video.on('ended', function () {
+    $('#root').show();
+    $('#video-container').hide();
+    mp4.attr('src', '');
+  });
 });

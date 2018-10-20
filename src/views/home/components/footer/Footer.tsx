@@ -115,12 +115,17 @@ export default class Footer extends React.Component<any, any> {
     commander.deleteLayer('mylayer');
   };
 
+  showVideo = () => {
+    commander.sendVideo();
+  };
+
   render() {
     return (
       <div className="footer-container">
         Footer
         <button onClick={this.onClicked}>Click me!</button>
         <button onClick={this.onClicked2}>Click me 2</button>
+        <button onClick={this.showVideo}>Show Video</button>
       </div>
     );
   }
