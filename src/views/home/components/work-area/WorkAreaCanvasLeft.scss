@@ -1,6 +1,6 @@
 .work-area-canvas-left-container {
   min-width:200px;
-  background-color: #cfc;
+  background-color: #ededed;
   resize: horizontal;
   overflow: auto;
 
@@ -16,8 +16,10 @@
 
     justify-content: space-around;
     -webkit-flex-flow: column wrap;
-    flex-flow: column wrap;
-    padding: 0;
+
+    li {
+      padding: 20px 10px;
+    }
   }
 
   .selected {

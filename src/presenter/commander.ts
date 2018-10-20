@@ -12,7 +12,6 @@ import { KonvaCommand } from '../interop/KonvaCommand';
 import {
   findCurrentPresentation,
   getCurrentSlide,
-  getCurrentSlidePosition,
 } from '../helpers/OrderedMapHelper';
 import { OrderedMap } from 'immutable';
 import * as Konva from 'konva';

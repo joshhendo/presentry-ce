@@ -4,7 +4,7 @@
   width:200px;
 
   flex:3;
-  background-color: #cfe;
+  background-color: #ffffff;
 
   .list {
     list-style: none;
@@ -20,6 +20,10 @@
     -webkit-flex-flow: column wrap;
     flex-flow: column wrap;
     padding: 0;
+
+    li {
+      padding: 20px 10px;
+    }
   }
 
   .selected {
