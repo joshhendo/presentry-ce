@@ -35,8 +35,9 @@ class PresentationStore extends utils.ReduceStore<any, any> {
         }
 
         return updatedState.set(action.data.id, {
-          ...action.data,
+          currentSlide: 0,
           current: false,
+          ...action.data,
         });
       case PresentationActionTypes.DELETE_PRESENTATION:
         return updatedState.delete(action.data.id);
