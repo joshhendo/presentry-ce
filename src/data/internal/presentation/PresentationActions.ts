@@ -1,16 +1,16 @@
 import PresentationActionTypes from './PresentationActionTypes';
-import PresentationDispatcher from './PresentationDispatcher';
+import Dispatcher from '../InternalDispatcher';
 import { PresentationData } from './PresentationStore';
 
 const Actions = {
   addPresentation(data: PresentationData) {
-    PresentationDispatcher.dispatch({
+    Dispatcher.dispatch({
       type: PresentationActionTypes.ADD_PRESENTATION,
       data,
     });
   },
   deletePresentation(id: string) {
-    PresentationDispatcher.dispatch({
+    Dispatcher.dispatch({
       type: PresentationActionTypes.DELETE_PRESENTATION,
       data: {
         id: id,
@@ -18,7 +18,7 @@ const Actions = {
     });
   },
   setCurrent(id: string) {
-    PresentationDispatcher.dispatch({
+    Dispatcher.dispatch({
       type: PresentationActionTypes.SET_CURRENT,
       data: {
         id: id,
@@ -26,7 +26,7 @@ const Actions = {
     });
   },
   setCurrentSlide(position: number) {
-    PresentationDispatcher.dispatch({
+    Dispatcher.dispatch({
       type: PresentationActionTypes.SET_CURRENT_SLIDE,
       data: {
         position: position,
