@@ -30,9 +30,9 @@ const Actions = {
       type: PresentationActionTypes.SET_CURRENT_SLIDE,
       data: {
         position: position,
-      }
-    })
-  }
+      },
+    });
+  },
 };
 
 export default Actions;

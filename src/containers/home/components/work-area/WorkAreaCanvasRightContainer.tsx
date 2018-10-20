@@ -23,10 +23,12 @@ class WorkAreaCanvasRightContainer extends React.Component<any, any> {
   }
 
   render() {
-    return <WorkAreaCanvasRight
-      presentation={this.state.presentation}
-      onSetCurrentSlide={this.state.onSetCurrentSlide}
-    />;
+    return (
+      <WorkAreaCanvasRight
+        presentation={this.state.presentation}
+        onSetCurrentSlide={this.state.onSetCurrentSlide}
+      />
+    );
   }
 }
 

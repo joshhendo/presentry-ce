@@ -36,10 +36,9 @@ export function getFullSlidesInOrder(currentPresentation: any) {
   const mapped = _.map(currentPresentation.data.order, o => {
     return {
       position: counter++,
-      ...(_.find(currentPresentation.data.lyrics, l => l.id === o))
-    }
+      ..._.find(currentPresentation.data.lyrics, l => l.id === o),
+    };
   });
 
   return mapped;
 }
-

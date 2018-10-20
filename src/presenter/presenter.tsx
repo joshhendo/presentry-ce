@@ -1,4 +1,4 @@
-import * as commander from "./commander";
+import * as commander from './commander';
 
 const ipc = require('electron').ipcRenderer;
 import * as Konva from 'konva';
@@ -18,7 +18,7 @@ ipc.on('message', (event: any, message: any) => {
   if (command.action === 'tween') {
     let node = null;
     if (command.layerId) {
-      node = layers[command.layerId].find(`#${command.id}`)[0]
+      node = layers[command.layerId].find(`#${command.id}`)[0];
     } else {
       node = layers[command.id];
     }
@@ -29,15 +29,13 @@ ipc.on('message', (event: any, message: any) => {
     });
 
     tween.play();
-  }
-  else if (command.type === 'layer') {
+  } else if (command.type === 'layer') {
     const layer2 = new Konva.Layer({
       id: command.id,
     });
     layers[command.id] = layer2;
     stage.add(layer2);
-  }
-  else if (command.type === 'text') {
+  } else if (command.type === 'text') {
     const layer2 = layers[command.layerId];
     obj = new Konva.Text({
       ...command.data,

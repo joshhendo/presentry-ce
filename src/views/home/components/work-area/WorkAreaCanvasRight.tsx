@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './WorkAreaCanvasRight.scss';
 import * as _ from 'lodash';
-import { getFullSlidesInOrder } from "../../../../helpers/OrderedMapHelper";
+import { getFullSlidesInOrder } from '../../../../helpers/OrderedMapHelper';
 
 export default class WorkAreaCanvasRight extends React.Component<any, any> {
   constructor(props: any) {
@@ -21,9 +21,12 @@ export default class WorkAreaCanvasRight extends React.Component<any, any> {
           {mapped.map(x => (
             <li
               key={x.position}
-              className={this.props.presentation.currentSlide === x.position ? 'selected' : ''}
-              onClick={() => this.props.onSetCurrentSlide(x.position)}
-            >
+              className={
+                this.props.presentation.currentSlide === x.position
+                  ? 'selected'
+                  : ''
+              }
+              onClick={() => this.props.onSetCurrentSlide(x.position)}>
               {x.id}
             </li>
           ))}

@@ -9,9 +9,13 @@ import * as _ from 'lodash';
 import Display = Electron.Display;
 import * as events from 'events';
 import { KonvaCommand } from '../interop/KonvaCommand';
-import { findCurrentPresentation, getCurrentSlide, getCurrentSlidePosition } from "../helpers/OrderedMapHelper";
-import { OrderedMap } from "immutable";
-import * as Konva from "konva";
+import {
+  findCurrentPresentation,
+  getCurrentSlide,
+  getCurrentSlidePosition,
+} from '../helpers/OrderedMapHelper';
+import { OrderedMap } from 'immutable';
+import * as Konva from 'konva';
 
 export const commanderEmitter = new events.EventEmitter();
 
@@ -90,7 +94,10 @@ export function LaunchPresentation() {
   }
 }
 
-function stateChanged(previousState: OrderedMap<any, any>, state: OrderedMap<any, any>) {
+function stateChanged(
+  previousState: OrderedMap<any, any>,
+  state: OrderedMap<any, any>
+) {
   let previousPresentationId: string = null;
   let previousPresentationSlide = null;
 
@@ -119,10 +126,18 @@ function stateChanged(previousState: OrderedMap<any, any>, state: OrderedMap<any
     deleteLayer(previousPresentationId);
     createLayer(currentPresentationId);
 
-    renderSlide(currentPresentationId, currentPresentationSlide.position, currentPresentationSlide.slides);
+    renderSlide(
+      currentPresentationId,
+      currentPresentationSlide.position,
+      currentPresentationSlide.slides
+    );
   } else if (previousPresentationSlide !== currentPresentationSlide) {
     deleteSlide(currentPresentationId, previousPresentationSlide.position);
-    renderSlide(currentPresentationId, currentPresentationSlide.position, currentPresentationSlide.slides);
+    renderSlide(
+      currentPresentationId,
+      currentPresentationSlide.position,
+      currentPresentationSlide.slides
+    );
   }
 }
 
@@ -138,7 +153,7 @@ export function deleteLayer(layerId: string) {
     data: {
       duration: 0.2,
       opacity: 0,
-    }
+    },
   };
 
   sendCommand(command);
@@ -164,13 +179,17 @@ export function deleteSlide(layerId: string, position: number) {
     data: {
       duration: 0.2,
       opacity: 0,
-    }
+    },
   };
 
   sendCommand(command);
 }
 
-export function renderSlide(layerId: string, position: number, lines: string[]) {
+export function renderSlide(
+  layerId: string,
+  position: number,
+  lines: string[]
+) {
   const command: KonvaCommand = {
     type: 'text',
     id: `${layerId}_${position}`,

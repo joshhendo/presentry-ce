@@ -14,8 +14,8 @@ export type PresentationDataList = Immutable.OrderedMap<
 >;
 
 export type PresentationCommand = {
-  position: number,
-}
+  position: number;
+};
 
 class PresentationStore extends utils.ReduceStore<any, any> {
   constructor() {
@@ -26,10 +26,7 @@ class PresentationStore extends utils.ReduceStore<any, any> {
     return Immutable.OrderedMap();
   }
 
-  reduce(
-    state: PresentationDataList,
-    action: { type: string; data: any }
-  ) {
+  reduce(state: PresentationDataList, action: { type: string; data: any }) {
     let updatedState = state;
     switch (action.type) {
       case PresentationActionTypes.ADD_PRESENTATION:
