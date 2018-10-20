@@ -12,7 +12,7 @@ import { KonvaCommand } from '../interop/KonvaCommand';
 
 export const commanderEmitter = new events.EventEmitter();
 
-PresentationStore.addListener(function () {
+PresentationStore.addListener(function() {
   const state = PresentationStore.getState();
   console.log('test');
 });
