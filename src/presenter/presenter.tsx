@@ -1,5 +1,3 @@
-import * as commander from './commander';
-
 const ipc = require('electron').ipcRenderer;
 import * as Konva from 'konva';
 

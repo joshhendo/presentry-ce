@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, globalShortcut } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -31,6 +31,10 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
+  });
+
+  ['PageDown', 'PageUp'].forEach(key => {
+    globalShortcut.register(key, () => mainWindow.webContents.send('keypress', key));
   });
 }
 
