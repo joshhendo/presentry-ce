@@ -2,6 +2,8 @@
 This file 'commands' the presentation window. As such, everything should go through here.
  */
 
+import PresentationStore from '../data/PresentationStore';
+
 import { screen, remote } from 'electron';
 import * as _ from 'lodash';
 import Display = Electron.Display;
@@ -9,6 +11,11 @@ import * as events from 'events';
 import { KonvaCommand } from '../interop/KonvaCommand';
 
 export const commanderEmitter = new events.EventEmitter();
+
+PresentationStore.addListener(function () {
+  const state = PresentationStore.getState();
+  console.log('test');
+});
 
 export function width(): number {
   if (state.window) {
