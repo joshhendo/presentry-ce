@@ -42,8 +42,12 @@ export function PreviousSlide() {
     for (let i = presentations.length - 1; i > 0; i--) {
       if (presentations[i] === currentPresentation.id) {
         PresentationActions.setCurrent(presentations[i - 1]);
-        const newPresentation = OrderedMapHelper.findCurrentPresentation(PresentationStore.getState());
-        PresentationActions.setCurrentSlide(newPresentation.data.order.length-1);
+        const newPresentation = OrderedMapHelper.findCurrentPresentation(
+          PresentationStore.getState()
+        );
+        PresentationActions.setCurrentSlide(
+          newPresentation.data.order.length - 1
+        );
         return;
       }
     }
