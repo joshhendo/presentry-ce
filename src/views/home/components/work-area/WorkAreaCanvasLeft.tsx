@@ -14,8 +14,7 @@ export default class WorkAreaCanvasLeft extends React.Component<any, any> {
             <li
               key={presentation.id}
               className={presentation.current ? 'selected' : ''}
-              onClick={() => this.props.onSetCurrent(presentation.id)}
-            >
+              onClick={() => this.props.onSetCurrent(presentation.id)}>
               {presentation.name}
             </li>
           ))}

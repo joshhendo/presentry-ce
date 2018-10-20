@@ -2,10 +2,10 @@ import WorkAreaCanvasRight from '../../../../views/home/components/work-area/Wor
 const FluxContainerCreate = require('flux-container-create');
 import PresentationStore from '../../../../data/PresentationStore';
 import PresentationActions from '../../../../data/PresentationActions';
-import {Container} from 'flux/utils';
+import { Container } from 'flux/utils';
 
 import * as React from 'react';
-import { OrderedMap } from "immutable";
+import { OrderedMap } from 'immutable';
 
 class WorkAreaCanvasRightContainer extends React.Component<any, any> {
   static getStores() {
@@ -18,15 +18,15 @@ class WorkAreaCanvasRightContainer extends React.Component<any, any> {
 
     return {
       presentation: active,
+      onSetCurrentSlide: PresentationActions.setCurrentSlide,
     };
   }
 
   render() {
-    return (
-      <WorkAreaCanvasRight
-        presentation={this.state.presentation}
-      />
-    )
+    return <WorkAreaCanvasRight
+      presentation={this.state.presentation}
+      onSetCurrentSlide={this.state.onSetCurrentSlide}
+    />;
   }
 }
 

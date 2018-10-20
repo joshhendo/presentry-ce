@@ -25,6 +25,14 @@ const Actions = {
       },
     });
   },
+  setCurrentSlide(position: number) {
+    PresentationDispatcher.dispatch({
+      type: PresentationActionTypes.SET_CURRENT_SLIDE,
+      data: {
+        position: position,
+      }
+    })
+  }
 };
 
 export default Actions;

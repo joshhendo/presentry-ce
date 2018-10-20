@@ -13,6 +13,10 @@ export type PresentationDataList = Immutable.OrderedMap<
   PresentationDataExtended
 >;
 
+export type PresentationCommand = {
+  position: number,
+}
+
 class PresentationStore extends utils.ReduceStore<any, any> {
   constructor() {
     super(PresentationDispatcher);
@@ -24,23 +28,22 @@ class PresentationStore extends utils.ReduceStore<any, any> {
 
   reduce(
     state: PresentationDataList,
-    action: { type: string; data: PresentationData }
+    action: { type: string; data: any }
   ) {
+    let updatedState = state;
     switch (action.type) {
       case PresentationActionTypes.ADD_PRESENTATION:
         if (!action.data) {
-          return state;
+          return updatedState;
         }
 
-        return state.set(action.data.id, {
+        return updatedState.set(action.data.id, {
           ...action.data,
           current: false,
         });
       case PresentationActionTypes.DELETE_PRESENTATION:
-        return state.delete(action.data.id);
+        return updatedState.delete(action.data.id);
       case PresentationActionTypes.SET_CURRENT:
-        let updatedState = state;
-
         const previous = updatedState.findLast(p => p.current);
         if (previous) {
           updatedState = updatedState.update(previous.id, x => {
@@ -59,8 +62,22 @@ class PresentationStore extends utils.ReduceStore<any, any> {
         });
 
         return updatedState;
+      case PresentationActionTypes.SET_CURRENT_SLIDE:
+        const activePresentation = updatedState.findLast(p => p.current);
+        if (!activePresentation) {
+          return updatedState;
+        }
+
+        updatedState = updatedState.update(activePresentation.id, x => {
+          return {
+            ...x,
+            currentSlide: action.data.position,
+          };
+        });
+
+        return updatedState;
       default:
-        return state;
+        return updatedState;
     }
   }
 }
