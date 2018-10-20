@@ -1,7 +1,7 @@
 import WorkAreaCanvasLeft from '../../../../views/home/components/work-area/WorkAreaCanvasLeft';
 const FluxContainerCreate = require('flux-container-create');
-import PresentationStore from '../../../../data/PresentationStore';
-import PresentationActions from '../../../../data/PresentationActions';
+import PresentationStore from '../../../../data/internal/presentation/PresentationStore';
+import PresentationActions from '../../../../data/internal/presentation/PresentationActions';
 
 import * as React from 'react';
 

@@ -2,7 +2,7 @@
 This file 'commands' the presentation window. As such, everything should go through here.
  */
 
-import PresentationStore from '../data/PresentationStore';
+import PresentationStore from '../data/internal/presentation/PresentationStore';
 
 import { screen, remote } from 'electron';
 import * as _ from 'lodash';

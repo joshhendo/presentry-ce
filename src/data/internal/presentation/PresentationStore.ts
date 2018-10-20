@@ -1,8 +1,8 @@
 import * as Immutable from 'immutable';
 import * as utils from 'flux/utils';
 import PresentationActionTypes from './PresentationActionTypes';
-import PresentationDispatcher from './PresentationDispatcher';
-import { ServiceFile } from '../components/presentations/file-reader';
+import PresentationDispatcher from '../InternalDispatcher';
+import { ServiceFile } from '../../../components/presentations/file-reader';
 
 export type PresentationData = ServiceFile['presentations'][0];
 export type PresentationDataExtended = PresentationData & {
