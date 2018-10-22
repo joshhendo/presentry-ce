@@ -1,6 +1,6 @@
 import HeaderRight from '../../../../views/home/components/header/HeaderRight';
 const FluxContainerCreate = require('flux-container-create');
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as React from 'react';
 
 /*
@@ -32,7 +32,7 @@ export default FluxContainerCreate(HeaderRightContainer);
 
 class HeaderRightContainer extends React.Component<any, any> {
   render() {
-    return <HeaderRight/>
+    return <HeaderRight />;
   }
 }
 
@@ -41,4 +41,3 @@ const mapStateToProps = function(store: any) {
 };
 
 export default connect(mapStateToProps)(HeaderRightContainer);
-

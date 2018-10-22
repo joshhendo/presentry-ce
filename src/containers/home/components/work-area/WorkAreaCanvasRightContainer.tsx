@@ -1,6 +1,9 @@
-import WorkAreaCanvasRight, {StateProps, DispatchProps} from '../../../../views/home/components/work-area/WorkAreaCanvasRight';
+import WorkAreaCanvasRight, {
+  StateProps,
+  DispatchProps,
+} from '../../../../views/home/components/work-area/WorkAreaCanvasRight';
 const FluxContainerCreate = require('flux-container-create');
-import { store, StoreType } from "../../../../data/internal/Store";
+import { store, StoreType } from '../../../../data/internal/Store';
 import * as PresentationActions from '../../../../data/internal/Actions';
 import { Container } from 'flux/utils';
 
@@ -39,11 +42,14 @@ class WorkAreaCanvasRightContainer extends React.Component<any, any> {
 
 import { connect } from 'react-redux';
 import * as _ from 'lodash';
-import { Section } from "../../../../components/presentations/file-reader";
+import { Section } from '../../../../components/presentations/file-reader';
 import * as Actions from '../../../../data/internal/Actions';
 
 const mapStateToProps = function(store: StoreType): StateProps {
-  const section = _.find(store.presentationState.sections, (x: Section) => x.id === store.presentationState.currentSection);
+  const section = _.find(
+    store.presentationState.sections,
+    (x: Section) => x.id === store.presentationState.currentSection
+  );
 
   return {
     section,
@@ -51,12 +57,18 @@ const mapStateToProps = function(store: StoreType): StateProps {
   };
 };
 
-const mapDispatchToProps = function(dispatch: any, ownProps: any): DispatchProps {
+const mapDispatchToProps = function(
+  dispatch: any,
+  ownProps: any
+): DispatchProps {
   return {
     onSetCurrentSlide: function(position: number) {
       Actions.setCurrentSlide(position);
-    }
-  }
+    },
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorkAreaCanvasRight);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WorkAreaCanvasRight);

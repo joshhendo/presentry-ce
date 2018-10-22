@@ -2,7 +2,7 @@ import * as React from 'react';
 import './WorkAreaCanvasRight.scss';
 import * as _ from 'lodash';
 import { getFullSlidesInOrder } from '../../../../helpers/OrderedMapHelper';
-import { Section } from "../../../../components/presentations/file-reader";
+import { Section } from '../../../../components/presentations/file-reader';
 
 export interface StateProps {
   section: Section;
@@ -34,9 +34,7 @@ export default class WorkAreaCanvasRight extends React.Component<Props, any> {
             <li
               key={x.position}
               className={
-                this.props.currentSlide === x.position
-                  ? 'selected'
-                  : ''
+                this.props.currentSlide === x.position ? 'selected' : ''
               }
               onClick={() => this.props.onSetCurrentSlide(x.position)}>
               {x.id}

@@ -1,7 +1,10 @@
-import redux, {createStore, combineReducers} from 'redux';
+import redux, { createStore, combineReducers } from 'redux';
 
-import {PresentationState, presentationReducer} from "./reducers/PresentationReducer";
-import {OverallState, overallReducer} from "./reducers/OverallReducer";
+import {
+  PresentationState,
+  presentationReducer,
+} from './reducers/PresentationReducer';
+import { OverallState, overallReducer } from './reducers/OverallReducer';
 
 export interface StoreType {
   presentationState: PresentationState;

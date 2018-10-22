@@ -4,7 +4,7 @@ import Home from './home/Home';
 const ipc = require('electron').ipcRenderer;
 import * as SlideNavigationHelper from '../helpers/SlideNavigatorHelper';
 import { Provider } from 'react-redux';
-import {store} from '../data/internal/Store';
+import { store } from '../data/internal/Store';
 
 export default function App() {
   return (

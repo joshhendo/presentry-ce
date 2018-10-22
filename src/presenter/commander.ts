@@ -2,7 +2,7 @@
 This file 'commands' the presentation window. As such, everything should go through here.
  */
 
-import { store, StoreType } from "../data/internal/Store";
+import { store, StoreType } from '../data/internal/Store';
 
 import { screen, remote } from 'electron';
 import * as _ from 'lodash';
@@ -100,19 +100,20 @@ export function LaunchPresentation() {
   }
 }
 
-function stateChanged(
-  previousState: StoreType,
-  state: StoreType,
-) {
+function stateChanged(previousState: StoreType, state: StoreType) {
   let previousPresentationId: string = null;
   let previousPresentationSlide = null;
 
   if (previousState) {
-    const previousPresentation = findCurrentSection(previousState.presentationState);
+    const previousPresentation = findCurrentSection(
+      previousState.presentationState
+    );
 
     if (previousPresentation) {
       previousPresentationId = previousPresentation.id;
-      previousPresentationSlide = getCurrentSlide(previousState.presentationState);
+      previousPresentationSlide = getCurrentSlide(
+        previousState.presentationState
+      );
     }
   }
 

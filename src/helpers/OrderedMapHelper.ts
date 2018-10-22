@@ -1,7 +1,7 @@
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
-import { Section } from "../components/presentations/file-reader";
-import { PresentationState } from "../data/internal/reducers/PresentationReducer";
+import { Section } from '../components/presentations/file-reader';
+import { PresentationState } from '../data/internal/reducers/PresentationReducer';
 
 export function findCurrentSection(state: PresentationState) {
   return _.find(state.sections, (x: Section) => x.id === state.currentSection);
