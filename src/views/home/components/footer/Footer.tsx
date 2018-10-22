@@ -126,6 +126,7 @@ export default class Footer extends React.Component<any, any> {
         <button onClick={this.onClicked}>Click me!</button>
         <button onClick={this.onClicked2}>Click me 2</button>
         <button onClick={this.showVideo}>Show Video</button>
+        <button onClick={() => commander.sendScale()}>Send Scale</button>
       </div>
     );
   }

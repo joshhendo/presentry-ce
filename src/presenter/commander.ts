@@ -233,3 +233,11 @@ export function sendVideo() {
 
   state.window.webContents.send('video', {});
 }
+
+export function sendScale() {
+  if (!state.window) {
+    return;
+  }
+
+  state.window.webContents.send('scale', {});
+}

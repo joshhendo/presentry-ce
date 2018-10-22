@@ -54,16 +54,21 @@ ipc.on('video', (event: any, message: any) => {
   $('#video-container').show();
 
   const video = $('#video');
-  const mp4 = $('#mp4')
+  const mp4 = $('#mp4');
 
   mp4.attr('src', 'C:\\Users\\Hendo\\Desktop\\Wildlife.mp4');
 
   (video.get(0) as any).load();
   (video.get(0) as any).play();
 
-  video.on('ended', function () {
+  video.on('ended', function() {
     $('#root').show();
     $('#video-container').hide();
     mp4.attr('src', '');
   });
+});
+
+ipc.on('scale', (event: any, message: any) => {
+  stage.scaleX(0.5);
+  stage.scaleY(0.5);
 });
