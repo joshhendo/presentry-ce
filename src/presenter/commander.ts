@@ -2,7 +2,7 @@
 This file 'commands' the presentation window. As such, everything should go through here.
  */
 
-import PresentationStore from '../data/internal/presentation/PresentationStore';
+import { store, StoreType } from "../data/internal/Store";
 
 import { screen, remote } from 'electron';
 import * as _ from 'lodash';
@@ -10,17 +10,16 @@ import Display = Electron.Display;
 import * as events from 'events';
 import { KonvaCommand } from '../interop/KonvaCommand';
 import {
-  findCurrentPresentation,
+  findCurrentSection,
   getCurrentSlide,
 } from '../helpers/OrderedMapHelper';
-import { OrderedMap } from 'immutable';
-import * as Konva from 'konva';
 
 export const commanderEmitter = new events.EventEmitter();
 
-let currentState = null as any;
-PresentationStore.addListener(function() {
-  const state = PresentationStore.getState();
+let currentState = null as StoreType;
+
+store.subscribe(() => {
+  const state = store.getState();
   stateChanged(currentState, state);
   currentState = state;
 });
@@ -102,28 +101,28 @@ export function LaunchPresentation() {
 }
 
 function stateChanged(
-  previousState: OrderedMap<any, any>,
-  state: OrderedMap<any, any>
+  previousState: StoreType,
+  state: StoreType,
 ) {
   let previousPresentationId: string = null;
   let previousPresentationSlide = null;
 
   if (previousState) {
-    const previousPresentation = findCurrentPresentation(previousState);
+    const previousPresentation = findCurrentSection(previousState.presentationState);
 
     if (previousPresentation) {
       previousPresentationId = previousPresentation.id;
-      previousPresentationSlide = getCurrentSlide(previousPresentation);
+      previousPresentationSlide = getCurrentSlide(previousState.presentationState);
     }
   }
 
-  const currentPresentation = findCurrentPresentation(state);
+  const currentPresentation = findCurrentSection(state.presentationState);
   if (!currentPresentation) {
     return;
   }
 
   const currentPresentationId = currentPresentation.id;
-  const currentPresentationSlide = getCurrentSlide(currentPresentation);
+  const currentPresentationSlide = getCurrentSlide(state.presentationState);
 
   if (!currentPresentationSlide) {
     return;

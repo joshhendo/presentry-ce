@@ -1,32 +1,22 @@
-import WorkAreaCanvasLeft from '../../../../views/home/components/work-area/WorkAreaCanvasLeft';
-const FluxContainerCreate = require('flux-container-create');
-import PresentationStore from '../../../../data/internal/presentation/PresentationStore';
-import PresentationActions from '../../../../data/internal/presentation/PresentationActions';
-
+import WorkAreaCanvasLeft, {StateProps, DispatchProps} from "../../../../views/home/components/work-area/WorkAreaCanvasLeft";
 import * as React from 'react';
+import {connect} from 'react-redux';
+import { StoreType } from "../../../../data/internal/Store";
+import * as Actions from '../../../../data/internal/Actions';
 
-class WorkAreaCanvasLeftContainer extends React.Component<any, any> {
-  static getStores() {
-    return [PresentationStore];
+const mapStateToProps = function(store: StoreType): StateProps {
+  return {
+    currentSection: store.presentationState.currentSection,
+    sections: store.presentationState.sections
   }
+};
 
-  static calculateState(prevState: any) {
-    return {
-      presentations: PresentationStore.getState(),
-      onDeletePresentation: PresentationActions.deletePresentation,
-      onSetCurrent: PresentationActions.setCurrent,
-    };
-  }
-
-  render() {
-    return (
-      <WorkAreaCanvasLeft
-        presentations={this.state.presentations}
-        onDeletePresentation={this.state.onDeletePresentation}
-        onSetCurrent={this.state.onSetCurrent}
-      />
-    );
+const mapDispatchToProps = function(dispatch: any, ownProps: any): DispatchProps {
+  return {
+    onSetCurrent: function(id: string) {
+      Actions.setCurrent(id);
+    }
   }
 }
 
-export default FluxContainerCreate(WorkAreaCanvasLeftContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(WorkAreaCanvasLeft);

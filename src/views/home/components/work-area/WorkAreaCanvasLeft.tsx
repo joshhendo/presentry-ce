@@ -1,7 +1,20 @@
 import * as React from 'react';
 import './WorkAreaCanvasLeft.scss';
+import { Section } from "../../../../components/presentations/file-reader";
 
-export default class WorkAreaCanvasLeft extends React.Component<any, any> {
+export interface StateProps {
+  // State
+  currentSection: string,
+  sections: Section[],
+}
+
+export interface DispatchProps {
+  onSetCurrent: (id: string) => void;
+}
+
+export type Props = StateProps & DispatchProps;
+
+export default class WorkAreaCanvasLeft extends React.Component<Props, any> {
   constructor(props: any) {
     super(props);
   }
@@ -10,12 +23,13 @@ export default class WorkAreaCanvasLeft extends React.Component<any, any> {
     return (
       <div className="work-area-canvas-left-container">
         <ul className="list">
-          {[...this.props.presentations.values()].map(presentation => (
+          {[...this.props.sections].map(section=> (
             <li
-              key={presentation.id}
-              className={presentation.current ? 'selected' : ''}
-              onClick={() => this.props.onSetCurrent(presentation.id)}>
-              {presentation.name}
+              key={section.id}
+              className={section.id===this.props.currentSection ? 'selected' : ''}
+              onClick={() => this.props.onSetCurrent(section.id)}
+            >
+              {section.name}
             </li>
           ))}
         </ul>
