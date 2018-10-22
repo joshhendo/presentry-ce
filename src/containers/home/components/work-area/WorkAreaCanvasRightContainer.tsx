@@ -10,36 +10,6 @@ import { Container } from 'flux/utils';
 import * as React from 'react';
 import { OrderedMap } from 'immutable';
 
-/*
-class WorkAreaCanvasRightContainer extends React.Component<any, any> {
-  static getStores() {
-    return [PresentationStore];
-  }
-
-  static calculateState(prevState: any) {
-    const presentations = PresentationStore.getState();
-
-    /*
-    const active = presentations.findLast(x => x.current) || null;
-
-    return {
-      presentation: active,
-      onSetCurrentSlide: PresentationActions.setCurrentSlide,
-    };
-  }
-
-  render() {
-    return (
-      <WorkAreaCanvasRight
-        presentation={this.state.presentation}
-        onSetCurrentSlide={this.state.onSetCurrentSlide}
-      />
-    );
-  }
-}*/
-
-// export default FluxContainerCreate(WorkAreaCanvasRightContainer);
-
 import { connect } from 'react-redux';
 import * as _ from 'lodash';
 import { Section } from '../../../../components/presentations/file-reader';

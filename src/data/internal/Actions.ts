@@ -17,3 +17,7 @@ export function setCurrent(id: string, position: number = 0) {
 export function setCurrentSlide(position: number) {
   store.dispatch({ type: ActionTypes.SET_CURRENT_SLIDE, payload: position });
 }
+
+export function toggleActive() {
+  store.dispatch({ type: ActionTypes.TOGGLE_ACTIVE });
+}

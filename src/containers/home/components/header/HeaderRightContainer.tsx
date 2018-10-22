@@ -1,43 +1,29 @@
-import HeaderRight from '../../../../views/home/components/header/HeaderRight';
+import HeaderRight, {
+  StateProps,
+  DispatchProps,
+} from '../../../../views/home/components/header/HeaderRight';
 const FluxContainerCreate = require('flux-container-create');
 import { connect } from 'react-redux';
 import * as React from 'react';
+import * as Actions from '../../../../data/internal/Actions';
+import { StoreType } from '../../../../data/internal/Store';
 
-/*
-class HeaderRightContainer extends React.Component<any, any> {
-  static getStores() {
-    return [StateStore];
-  }
-
-  static calculateState(prevState: any) {
-    return {
-      states: StateStore.getState(),
-      onTogglePresentationWindow: StateActions.togglePresentationWindow(),
-    };
-  }
-
-  render() {
-    return (
-      <HeaderRight
-        // states={this.state.states}
-        // onTogglePresentationWindow={this.state.onTogglePresentationWindow}
-      />
-    );
-  }
-}
-
-export default FluxContainerCreate(HeaderRightContainer);
-//export default HeaderRightContainer;
-*/
-
-class HeaderRightContainer extends React.Component<any, any> {
-  render() {
-    return <HeaderRight />;
-  }
-}
-
-const mapStateToProps = function(store: any) {
-  return {};
+const mapStateToProps = function(store: StoreType): StateProps {
+  return {
+    isActive: store.overallState.active,
+  };
 };
 
-export default connect(mapStateToProps)(HeaderRightContainer);
+const mapDispatchToProps = function(
+  dispatch: any,
+  ownProps: any
+): DispatchProps {
+  return {
+    onToggleActive: Actions.toggleActive,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HeaderRight);

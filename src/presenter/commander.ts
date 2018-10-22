@@ -24,31 +24,27 @@ store.subscribe(() => {
   currentState = state;
 });
 
+let currentWindow = null as Electron.BrowserWindow;
+
 export function width(): number {
-  if (state.window) {
-    return state.window.getSize()[0];
+  if (currentWindow) {
+    return currentWindow.getSize()[0];
   }
   return 0;
 }
 
 export function height(): number {
-  if (state.window) {
-    return state.window.getSize()[1];
+  if (currentWindow) {
+    return currentWindow.getSize()[1];
   }
   return 0;
 }
 
-const state = {
-  active: false,
-  window: null as Electron.BrowserWindow,
-};
-
-export function LaunchPresentation() {
-  if (state.active) {
+function LaunchPresentation() {
+  if (currentWindow) {
     return;
   }
 
-  const dirName = (remote.getCurrentWindow() as any).dirName;
   const displays = screen.getAllDisplays();
   if (displays.length < 2) {
     alert('You need a second display');
@@ -92,8 +88,7 @@ export function LaunchPresentation() {
     */
     presentationWindow.webContents.executeJavaScript('1===1', true);
 
-    state.active = true;
-    state.window = presentationWindow;
+    currentWindow = presentationWindow;
     commanderEmitter.emit('active', true);
   } else {
     alert('Error starting up');
@@ -101,6 +96,17 @@ export function LaunchPresentation() {
 }
 
 function stateChanged(previousState: StoreType, state: StoreType) {
+  // Check for overall changes
+  if (
+    !previousState ||
+    previousState.overallState.active != state.overallState.active
+  ) {
+    if (state.overallState.active) {
+      LaunchPresentation();
+    }
+  }
+
+  // Check for presentation changes
   let previousPresentationId: string = null;
   let previousPresentationSlide = null;
 
@@ -219,25 +225,25 @@ export function renderSlide(
 }
 
 export function sendCommand(data: KonvaCommand) {
-  if (!state.window) {
+  if (!currentWindow) {
     return;
   }
 
-  state.window.webContents.send('message', JSON.stringify(data));
+  currentWindow.webContents.send('message', JSON.stringify(data));
 }
 
 export function sendVideo() {
-  if (!state.window) {
+  if (!currentWindow) {
     return;
   }
 
-  state.window.webContents.send('video', {});
+  currentWindow.webContents.send('video', {});
 }
 
 export function sendScale() {
-  if (!state.window) {
+  if (!currentWindow) {
     return;
   }
 
-  state.window.webContents.send('scale', {});
+  currentWindow.webContents.send('scale', {});
 }
