@@ -1,5 +1,6 @@
 import * as React from 'react';
-import HeaderRight from './HeaderRight';
+import HeaderRightContainer from '../../../../containers/home/components/header/HeaderRightContainer';
+// import HeaderRight from './HeaderRight';
 import HeaderMiddle from './HeaderMiddle';
 import HeaderLeft from './HeaderLeft';
 
@@ -11,7 +12,7 @@ export default class Header extends React.Component<any, any> {
       <div className="header-container">
         <HeaderLeft />
         <HeaderMiddle />
-        <HeaderRight />
+        <HeaderRightContainer />
       </div>
     );
   }

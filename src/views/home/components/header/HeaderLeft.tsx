@@ -3,7 +3,7 @@ import * as React from 'react';
 import './HeaderLeft.scss';
 import { loadFile } from '../../../../components/presentations/file-reader';
 
-import PresentationActions from '../../../../data/PresentationActions';
+import * as PresentationActions from '../../../../data/internal/Actions';
 
 export default class HeaderLeft extends React.Component<any, any> {
   constructor(props: any) {
@@ -13,8 +13,8 @@ export default class HeaderLeft extends React.Component<any, any> {
   loadFile = () => {
     const file = loadFile();
 
-    for (const presentation of file.presentations) {
-      PresentationActions.addPresentation(presentation);
+    for (const section of file.sections) {
+      PresentationActions.addSection(section);
     }
   };
 

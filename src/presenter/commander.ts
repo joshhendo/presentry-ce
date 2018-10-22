@@ -2,7 +2,7 @@
 This file 'commands' the presentation window. As such, everything should go through here.
  */
 
-import PresentationStore from '../data/PresentationStore';
+import { store, StoreType } from '../data/internal/Store';
 
 import { screen, remote } from 'electron';
 import * as _ from 'lodash';
@@ -10,46 +10,41 @@ import Display = Electron.Display;
 import * as events from 'events';
 import { KonvaCommand } from '../interop/KonvaCommand';
 import {
-  findCurrentPresentation,
+  findCurrentSection,
   getCurrentSlide,
 } from '../helpers/OrderedMapHelper';
-import { OrderedMap } from 'immutable';
-import * as Konva from 'konva';
 
 export const commanderEmitter = new events.EventEmitter();
 
-let currentState = null as any;
-PresentationStore.addListener(function() {
-  const state = PresentationStore.getState();
+let currentState = null as StoreType;
+
+store.subscribe(() => {
+  const state = store.getState();
   stateChanged(currentState, state);
   currentState = state;
 });
 
+let currentWindow = null as Electron.BrowserWindow;
+
 export function width(): number {
-  if (state.window) {
-    return state.window.getSize()[0];
+  if (currentWindow) {
+    return currentWindow.getSize()[0];
   }
   return 0;
 }
 
 export function height(): number {
-  if (state.window) {
-    return state.window.getSize()[1];
+  if (currentWindow) {
+    return currentWindow.getSize()[1];
   }
   return 0;
 }
 
-const state = {
-  active: false,
-  window: null as Electron.BrowserWindow,
-};
-
-export function LaunchPresentation() {
-  if (state.active) {
+function LaunchPresentation() {
+  if (currentWindow) {
     return;
   }
 
-  const dirName = (remote.getCurrentWindow() as any).dirName;
   const displays = screen.getAllDisplays();
   if (displays.length < 2) {
     alert('You need a second display');
@@ -78,44 +73,63 @@ export function LaunchPresentation() {
       presentationWindow.show();
       presentationWindow.focus();
       // presentationWindow.webContents.send('message', 'hello second window');
-      // presentationWindow.webContents.openDevTools();
+      //presentationWindow.webContents.openDevTools();
     });
     presentationWindow.on('closed', () => {
       (presentationWindow as any) = null;
     });
     presentationWindow.loadURL(`file://${__dirname}/canvas.html`);
 
-    state.active = true;
-    state.window = presentationWindow;
+    /*
+    Ok so playing videos with audio requires a "user gesture"  to be performed, otherwiese you get:
+      play() failed because the user didn't interact with the document first.
+    This line of code allows a "user gesture" to be performed, so you don't get this error.
+    It seems to work.
+    */
+    presentationWindow.webContents.executeJavaScript('1===1', true);
+
+    currentWindow = presentationWindow;
     commanderEmitter.emit('active', true);
   } else {
     alert('Error starting up');
   }
 }
 
-function stateChanged(
-  previousState: OrderedMap<any, any>,
-  state: OrderedMap<any, any>
-) {
+function stateChanged(previousState: StoreType, state: StoreType) {
+  // Check for overall changes
+  if (
+    !previousState ||
+    previousState.overallState.active != state.overallState.active
+  ) {
+    if (state.overallState.active) {
+      LaunchPresentation();
+    }
+  }
+
+  // Check for presentation changes
   let previousPresentationId: string = null;
   let previousPresentationSlide = null;
 
   if (previousState) {
-    const previousPresentation = findCurrentPresentation(previousState);
+    const previousPresentation = findCurrentSection(
+      previousState.presentationState
+    );
 
     if (previousPresentation) {
       previousPresentationId = previousPresentation.id;
-      previousPresentationSlide = getCurrentSlide(previousPresentation);
+      previousPresentationSlide = getCurrentSlide(
+        previousState.presentationState
+      );
     }
   }
 
-  const currentPresentation = findCurrentPresentation(state);
+  const currentPresentation = findCurrentSection(state.presentationState);
   if (!currentPresentation) {
     return;
   }
 
   const currentPresentationId = currentPresentation.id;
-  const currentPresentationSlide = getCurrentSlide(currentPresentation);
+  const currentPresentationSlide = getCurrentSlide(state.presentationState);
 
   if (!currentPresentationSlide) {
     return;
@@ -211,9 +225,25 @@ export function renderSlide(
 }
 
 export function sendCommand(data: KonvaCommand) {
-  if (!state.window) {
+  if (!currentWindow) {
     return;
   }
 
-  state.window.webContents.send('message', JSON.stringify(data));
+  currentWindow.webContents.send('message', JSON.stringify(data));
+}
+
+export function sendVideo() {
+  if (!currentWindow) {
+    return;
+  }
+
+  currentWindow.webContents.send('video', {});
+}
+
+export function sendScale() {
+  if (!currentWindow) {
+    return;
+  }
+
+  currentWindow.webContents.send('scale', {});
 }

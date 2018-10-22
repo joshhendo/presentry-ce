@@ -2,15 +2,17 @@ import { v4 } from 'uuid';
 
 export interface ServiceFile {
   name: string;
-  presentations: {
-    id: string;
-    type: 'song' | 'bible';
-    name: string;
-    data: SongPresentation;
-  }[];
+  sections: Section[];
 }
 
-export interface SongPresentation {
+export interface Section {
+  id: string;
+  type: 'song' | 'bible';
+  name: string;
+  data: SongSection;
+}
+
+export interface SongSection {
   title: string;
   lyrics: {
     id: string;
@@ -22,7 +24,7 @@ export interface SongPresentation {
 export function loadFile(): ServiceFile {
   return {
     name: '6pm 20/10/2018',
-    presentations: [
+    sections: [
       {
         id: v4(),
         type: 'song',

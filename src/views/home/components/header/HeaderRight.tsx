@@ -3,7 +3,17 @@ import * as React from 'react';
 import './HeaderRight.scss';
 import * as commander from '../../../../presenter/commander';
 
-export default class HeaderRight extends React.Component<any, any> {
+export interface StateProps {
+  isActive: boolean;
+}
+
+export interface DispatchProps {
+  onToggleActive: () => void;
+}
+
+export type Props = StateProps & DispatchProps;
+
+export default class HeaderRight extends React.Component<Props, any> {
   constructor(props: any) {
     super(props);
     const that = this;
@@ -19,16 +29,14 @@ export default class HeaderRight extends React.Component<any, any> {
     });
   }
 
-  launchPresentation = () => {
-    commander.LaunchPresentation();
-  };
-
   render() {
     let presentationButton = (
-      <button onClick={this.launchPresentation}>Launch</button>
+      <button onClick={this.props.onToggleActive}>Launch</button>
     );
-    if (this.state.presentationActive) {
-      presentationButton = <button>Stop</button>;
+    if (this.props.isActive) {
+      presentationButton = (
+        <button onClick={this.props.onToggleActive}>Stop</button>
+      );
     }
 
     return <div className="header-right-container">{presentationButton}</div>;

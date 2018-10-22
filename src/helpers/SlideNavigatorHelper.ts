@@ -1,52 +1,45 @@
-import PresentationActions from '../data/PresentationActions';
-import PresentationStore from '../data/PresentationStore';
+import * as PresentationActions from '../data/internal/Actions';
+import { store } from '../data/internal/Store';
 import * as OrderedMapHelper from './OrderedMapHelper';
-import { OrderedMap } from 'immutable';
+import * as _ from 'lodash';
+import { PresentationState } from '../data/internal/reducers/PresentationReducer';
 
 export function NextSlide() {
-  const state = PresentationStore.getState() as OrderedMap<any, any>;
+  const state = store.getState().presentationState as PresentationState;
 
-  const currentPresentation = OrderedMapHelper.findCurrentPresentation(state);
-  const currentSlidePosition = OrderedMapHelper.getCurrentSlidePosition(
-    currentPresentation
-  );
+  const section = OrderedMapHelper.findCurrentSection(state);
+  const position = state.currentSlide || 0;
 
-  if (currentSlidePosition === currentPresentation.data.order.length - 1) {
-    const presentations = Array.from(state.keys() as any) as string[];
+  if (position === section.data.order.length - 1) {
+    const sectionIds = _.map(state.sections, 'id');
 
-    for (let i = 0; i < presentations.length - 1; i++) {
-      if (presentations[i] === currentPresentation.id) {
-        PresentationActions.setCurrent(presentations[i + 1]);
+    for (let i = 0; i < sectionIds.length - 1; i++) {
+      if (sectionIds[i] === state.currentSection) {
+        PresentationActions.setCurrent(state.sections[i + 1].id);
         PresentationActions.setCurrentSlide(0);
         return;
       }
     }
   } else {
-    PresentationActions.setCurrentSlide(currentSlidePosition + 1);
+    PresentationActions.setCurrentSlide(state.currentSlide + 1);
   }
 }
 
 export function PreviousSlide() {
-  const state = PresentationStore.getState();
+  const state = store.getState().presentationState as PresentationState;
 
-  const currentPresentation = OrderedMapHelper.findCurrentPresentation(state);
-  const currentSlidePosition = OrderedMapHelper.getCurrentSlidePosition(
-    currentPresentation
-  );
+  const position = state.currentSlide || 0;
 
-  if (currentSlidePosition > 0) {
-    PresentationActions.setCurrentSlide(currentSlidePosition - 1);
+  if (position > 0) {
+    PresentationActions.setCurrentSlide(position - 1);
   } else {
-    const presentations = Array.from(state.keys() as any) as string[];
+    const sectionIds = _.map(state.sections, 'id');
 
-    for (let i = presentations.length - 1; i > 0; i--) {
-      if (presentations[i] === currentPresentation.id) {
-        PresentationActions.setCurrent(presentations[i - 1]);
-        const newPresentation = OrderedMapHelper.findCurrentPresentation(
-          PresentationStore.getState()
-        );
-        PresentationActions.setCurrentSlide(
-          newPresentation.data.order.length - 1
+    for (let i = sectionIds.length - 1; i > 0; i--) {
+      if (sectionIds[i] === state.currentSection) {
+        PresentationActions.setCurrent(
+          state.sections[i - 1].id,
+          state.sections[i - 1].data.order.length - 1
         );
         return;
       }

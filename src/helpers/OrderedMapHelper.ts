@@ -1,42 +1,37 @@
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
+import { Section } from '../components/presentations/file-reader';
+import { PresentationState } from '../data/internal/reducers/PresentationReducer';
 
-export function findCurrentPresentation(input: Immutable.OrderedMap<any, any>) {
-  return input.findLast(x => x.current);
+export function findCurrentSection(state: PresentationState) {
+  return _.find(state.sections, (x: Section) => x.id === state.currentSection);
 }
 
-export function getCurrentSlidePosition(currentPresentation: any) {
-  if (!currentPresentation) {
+export function getCurrentSlide(state: PresentationState) {
+  if (!state.currentSection) {
     return null;
   }
 
-  return currentPresentation.currentSlide;
-}
+  const section = findCurrentSection(state);
 
-export function getCurrentSlide(currentPresentation: any) {
-  if (!currentPresentation) {
+  const slidesInOrder = getFullSlidesInOrder(section);
+  if (state.currentSlide === undefined || state.currentSlide === null) {
     return null;
   }
 
-  const slidesInOrder = getFullSlidesInOrder(currentPresentation);
-  const currentPosition = getCurrentSlidePosition(currentPresentation) || 0;
-  if (currentPosition === undefined || currentPosition === null) {
-    return null;
-  }
-
-  return slidesInOrder[currentPosition];
+  return slidesInOrder[state.currentSlide];
 }
 
-export function getFullSlidesInOrder(currentPresentation: any) {
-  if (!currentPresentation) {
+export function getFullSlidesInOrder(section: Section) {
+  if (!section) {
     return null;
   }
 
   let counter = 0;
-  const mapped = _.map(currentPresentation.data.order, o => {
+  const mapped = _.map(section.data.order, o => {
     return {
       position: counter++,
-      ..._.find(currentPresentation.data.lyrics, l => l.id === o),
+      ..._.find(section.data.lyrics, l => l.id === o),
     };
   });
 
