@@ -102,7 +102,7 @@ let rendererConfig = {
 
 let presenterConfig = {
   mode: 'production',
-  entry: './src/presenter/presenter.ts',
+  entry: './src/views/presentation/presenter.ts',
   target: 'electron-renderer',
   output: {
     filename: 'presenter.bundle.js',
@@ -147,7 +147,7 @@ let presenterConfig = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './src/presenter/canvas.html'),
+      template: path.resolve(__dirname, './src/views/presentation/canvas.html'),
       filename: 'canvas.html',
     }),
   ],

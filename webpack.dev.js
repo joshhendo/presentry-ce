@@ -112,7 +112,7 @@ let rendererConfig = {
 
 let presenterConfig = {
   mode: 'development',
-  entry: './src/presenter/presenter.tsx',
+  entry: './src/views/presentation/presenter.tsx',
   target: 'electron-renderer',
   devtool: 'source-map',
   output: {
@@ -158,7 +158,7 @@ let presenterConfig = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './src/presenter/canvas.html'),
+      template: path.resolve(__dirname, './src/views/presentation/canvas.html'),
       filename: 'canvas.html',
     }),
     new webpack.LoaderOptionsPlugin({

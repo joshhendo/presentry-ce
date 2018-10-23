@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import './HeaderRight.scss';
-import * as commander from '../../../../presenter/commander';
+import * as commander from '../../../../interop/PresentationCommander';
 
 export interface StateProps {
   isActive: boolean;

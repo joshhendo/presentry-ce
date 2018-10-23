@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './Footer.scss';
-import * as commander from '../../../../presenter/commander';
+import * as commander from '../../../../interop/PresentationCommander';
 import { KonvaCommand } from '../../../../interop/KonvaCommand';
 
 export default class Footer extends React.Component<any, any> {
