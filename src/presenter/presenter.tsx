@@ -1,14 +1,33 @@
+import { width } from './commander';
+
 const ipc = require('electron').ipcRenderer;
 import * as Konva from 'konva';
 import * as $ from 'jquery';
+import { Shape } from 'konva';
 
 $('#video-container').hide();
 
 const stage = new Konva.Stage({
   container: 'root',
-  width: window.innerWidth,
-  height: window.innerHeight,
+  width: 1920,
+  height: 1080,
 });
+
+// window.innerWidth
+// window.innerHeight
+// scale the stage
+window.onresize = setScaleProperly;
+function setScaleProperly() {
+  const widthRatio = window.innerWidth / 1920;
+  const heightRatio = window.innerHeight / 1080;
+  const scaleRatio = Math.min(widthRatio, heightRatio);
+  if (scaleRatio !== 1) {
+    stage.scaleX(scaleRatio);
+    stage.scaleY(scaleRatio);
+    stage.draw();
+  }
+}
+setScaleProperly();
 
 const layers: any = {};
 
@@ -36,9 +55,14 @@ ipc.on('message', (event: any, message: any) => {
     });
     layers[command.id] = layer2;
     stage.add(layer2);
-  } else if (command.type === 'text') {
+  } else if (command.action === 'create') {
+    const classMapping: { [key: string]: any } = {
+      text: Konva.Text,
+      rect: Konva.Rect,
+    };
+
     const layer2 = layers[command.layerId];
-    obj = new Konva.Text({
+    obj = new classMapping[command.type]({
       ...command.data,
       id: command.id,
     });
@@ -71,4 +95,8 @@ ipc.on('video', (event: any, message: any) => {
 ipc.on('scale', (event: any, message: any) => {
   stage.scaleX(0.5);
   stage.scaleY(0.5);
+});
+
+ipc.on('redraw', (event: any, message: any) => {
+  stage.draw();
 });
