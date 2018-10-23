@@ -67,7 +67,6 @@ function LaunchPresentation() {
   }
 
   if (otherDisplay) {
-
     const windowOptions: any = {
       frame: false,
       autoHideMenuBar: true,
@@ -83,12 +82,14 @@ function LaunchPresentation() {
       windowOptions.fullscreen = false;
       windowOptions.x = 50;
       windowOptions.y = 50;
-      windowOptions.width = 1920/2;
-      windowOptions.height = 1080/2;
+      windowOptions.width = 1920 / 2;
+      windowOptions.height = 1080 / 2;
       windowOptions.frame = true;
     }
 
-    let presentationWindow: Electron.BrowserWindow = new remote.BrowserWindow(windowOptions);
+    let presentationWindow: Electron.BrowserWindow = new remote.BrowserWindow(
+      windowOptions
+    );
 
     presentationWindow.webContents.on('did-finish-load', () => {
       presentationWindow.show();
@@ -287,8 +288,8 @@ export function sendRect() {
       width: 1920,
       height: 1080,
       fill: 'green',
-    }
-  })
+    },
+  });
 }
 
 export function sendRedraw() {

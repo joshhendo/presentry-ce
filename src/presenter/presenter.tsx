@@ -1,9 +1,9 @@
-import { width } from "./commander";
+import { width } from './commander';
 
 const ipc = require('electron').ipcRenderer;
 import * as Konva from 'konva';
 import * as $ from 'jquery';
-import { Shape } from "konva";
+import { Shape } from 'konva';
 
 $('#video-container').hide();
 
@@ -12,7 +12,6 @@ const stage = new Konva.Stage({
   width: 1920,
   height: 1080,
 });
-
 
 // window.innerWidth
 // window.innerHeight
@@ -57,10 +56,9 @@ ipc.on('message', (event: any, message: any) => {
     layers[command.id] = layer2;
     stage.add(layer2);
   } else if (command.action === 'create') {
-
-    const classMapping: { [key: string]: any; }= {
-      'text': Konva.Text,
-      'rect': Konva.Rect,
+    const classMapping: { [key: string]: any } = {
+      text: Konva.Text,
+      rect: Konva.Rect,
     };
 
     const layer2 = layers[command.layerId];
