@@ -54,13 +54,21 @@ function LaunchPresentation() {
   const currentDisplay = screen.getDisplayNearestPoint(
     screen.getCursorScreenPoint()
   );
-  const otherDisplay = _.find(
+
+  const devMode = process.env.NODE_ENV === 'development';
+
+  let otherDisplay = _.find(
     displays,
     (d: Display) => d.id != currentDisplay.id
   );
 
+  if (!otherDisplay && devMode) {
+    otherDisplay = displays[0];
+  }
+
   if (otherDisplay) {
-    let presentationWindow: Electron.BrowserWindow = new remote.BrowserWindow({
+
+    const windowOptions: any = {
       frame: false,
       autoHideMenuBar: true,
       fullscreen: true,
@@ -68,12 +76,25 @@ function LaunchPresentation() {
       y: otherDisplay.bounds.y + 50,
       parent: remote.getCurrentWindow(),
       backgroundColor: '#000000',
-    });
+    };
+
+    // check for development mode
+    if (process.env.NODE_ENV === 'development') {
+      windowOptions.fullscreen = false;
+      windowOptions.x = 50;
+      windowOptions.y = 50;
+      windowOptions.width = 1920/2;
+      windowOptions.height = 1080/2;
+      windowOptions.frame = true;
+    }
+
+    let presentationWindow: Electron.BrowserWindow = new remote.BrowserWindow(windowOptions);
+
     presentationWindow.webContents.on('did-finish-load', () => {
       presentationWindow.show();
       presentationWindow.focus();
       // presentationWindow.webContents.send('message', 'hello second window');
-      //presentationWindow.webContents.openDevTools();
+      presentationWindow.webContents.openDevTools();
     });
     presentationWindow.on('closed', () => {
       (presentationWindow as any) = null;
@@ -215,7 +236,7 @@ export function renderSlide(
       fontSize: 130,
       fontFamily: 'Calibri',
       fill: '#555',
-      width: width() - 40,
+      width: 1920 - 40,
       padding: 20,
       align: 'center',
     },
@@ -246,4 +267,34 @@ export function sendScale() {
   }
 
   currentWindow.webContents.send('scale', {});
+}
+
+export function sendRect() {
+  if (!currentWindow) {
+    return;
+  }
+
+  createLayer('layeradfsasdf');
+
+  sendCommand({
+    type: 'rect',
+    id: 'myrectangle',
+    action: 'create',
+    layerId: 'layeradfsasdf',
+    data: {
+      x: 0,
+      y: 0,
+      width: 1920,
+      height: 1080,
+      fill: 'green',
+    }
+  })
+}
+
+export function sendRedraw() {
+  if (!currentWindow) {
+    return;
+  }
+
+  currentWindow.webContents.send('redraw', {});
 }
