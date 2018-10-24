@@ -4,12 +4,12 @@
   "description": "",
   "main": "./dist/main.bundle.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --config prettierrc.json --write \"**/*.ts\" \"**/*.tsx\" \"*.js\"",
     "lint": "tslint -p tsconfig.json -e node_modules/**/* **/*",
     "start": "electron ./dist/main.bundle.js",
     "development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors",
-    "production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"
+    "production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors",
+    "test": "webpack --config ./webpack.test.js"
   },
   "author": "",
   "license": "MIT",
@@ -28,24 +28,32 @@
     "react-konva": "^16.5.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.6",
     "@types/immutable": "^3.8.7",
     "@types/jquery": "^3.3.21",
     "@types/lodash": "^4.14.117",
+    "@types/mocha": "^5.2.5",
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.8",
     "@types/react-redux": "^6.0.9",
     "@types/react-router-dom": "^4.3.1",
     "@types/redux": "^3.6.0",
+    "@types/request": "^2.47.1",
+    "@types/request-promise": "^4.1.42",
     "@types/uuid": "^3.4.4",
+    "chai": "^4.2.0",
     "copy-webpack-plugin": "^4.5.4",
     "css-loader": "^1.0.0",
     "file-loader": "^2.0.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^1.1.1",
+    "mocha": "^5.2.0",
     "node-sass": "^4.9.3",
     "prettier": "^1.14.3",
     "raw-loader": "^0.5.1",
@@ -61,7 +69,9 @@
     "tslint-react": "^3.6.0",
     "typescript": "^3.1.1",
     "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2",
+    "webpack-shell-plugin": "^0.5.0"
   },
   "husky": {
     "hooks": {

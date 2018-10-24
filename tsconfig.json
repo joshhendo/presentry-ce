@@ -7,7 +7,8 @@
         "noImplicitAny": true,
         "noImplicitThis": true,
         "target": "es6",
-        "sourceMap": true
+        "sourceMap": true,
+        "types": ["node", "mocha"]
     },
     "exclude": ["node_modules"]
 }

@@ -65,7 +65,7 @@ let rendererConfig = {
       {
         // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
         test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|tests/,
         use: {
           loader: 'ts-loader',
         },
@@ -120,7 +120,7 @@ let presenterConfig = {
       {
         // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
         test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|tests/,
         use: {
           loader: 'ts-loader',
         },
