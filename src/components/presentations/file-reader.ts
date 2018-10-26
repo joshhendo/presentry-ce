@@ -5,11 +5,16 @@ export interface ServiceFile {
   sections: Section[];
 }
 
+export interface SectionStyle {
+  background_colour: string;
+}
+
 export interface Section {
   id: string;
-  type: 'song' | 'bible';
+  type: 'song' | 'bible' | 'generic';
   name: string;
   data: SongSection;
+  style?: SectionStyle;
 }
 
 export interface SongSection {

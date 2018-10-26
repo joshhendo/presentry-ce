@@ -4,29 +4,7 @@ import * as commander from '../../../../interop/PresentationCommander';
 import { KonvaCommand } from '../../../../interop/KonvaCommand';
 
 export default class Footer extends React.Component<any, any> {
-  onClicked = () => {
-    commander.createLayer('mylayer');
-
-    const command: KonvaCommand = {
-      type: 'text',
-      id: 'mylayer',
-      action: 'create',
-      data: {
-        x: 20,
-        y: 60,
-        text: 'asdfasdflasdjkflasdjlaskdflajadfslfkj',
-        fontSize: 130,
-        fontFamily: 'Calibri',
-        fill: '#555',
-        width: commander.width(),
-        padding: 20,
-        align: 'center',
-        id: 'simple-text',
-      },
-    };
-
-    commander.sendCommand(command);
-  };
+  onClicked = () => {};
 
   onClicked2 = () => {
     commander.deleteLayer('mylayer');

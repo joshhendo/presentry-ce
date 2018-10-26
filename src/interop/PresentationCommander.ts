@@ -13,6 +13,7 @@ import {
   findCurrentSection,
   getCurrentSlide,
 } from '../helpers/OrderedMapHelper';
+import { Section } from '../components/presentations/file-reader';
 
 export const commanderEmitter = new events.EventEmitter();
 
@@ -62,9 +63,9 @@ function LaunchPresentation() {
     (d: Display) => d.id != currentDisplay.id
   );
 
-  if (!otherDisplay && devMode) {
+  /*if (!otherDisplay && devMode) {
     otherDisplay = displays[0];
-  }
+  }*/
 
   if (otherDisplay) {
     const windowOptions: any = {
@@ -78,14 +79,14 @@ function LaunchPresentation() {
     };
 
     // check for development mode
-    if (process.env.NODE_ENV === 'development') {
+    /*if (devMode) {
       windowOptions.fullscreen = false;
       windowOptions.x = 50;
       windowOptions.y = 50;
       windowOptions.width = 1920 / 2;
       windowOptions.height = 1080 / 2;
       windowOptions.frame = true;
-    }
+    }*/
 
     let presentationWindow: Electron.BrowserWindow = new remote.BrowserWindow(
       windowOptions
@@ -151,12 +152,12 @@ function stateChanged(previousState: StoreType, state: StoreType) {
     }
   }
 
-  const currentPresentation = findCurrentSection(state.presentationState);
-  if (!currentPresentation) {
+  const currentSection = findCurrentSection(state.presentationState);
+  if (!currentSection) {
     return;
   }
 
-  const currentPresentationId = currentPresentation.id;
+  const currentPresentationId = currentSection.id;
   const currentPresentationSlide = getCurrentSlide(state.presentationState);
 
   if (!currentPresentationSlide) {
@@ -165,7 +166,7 @@ function stateChanged(previousState: StoreType, state: StoreType) {
 
   if (previousPresentationId !== currentPresentationId) {
     deleteLayer(previousPresentationId);
-    createLayer(currentPresentationId);
+    createLayer(currentSection);
 
     renderSlide(
       currentPresentationId,
@@ -200,15 +201,33 @@ export function deleteLayer(layerId: string) {
   sendCommand(command);
 }
 
-export function createLayer(layerId: string) {
+export function createLayer(section: Section) {
   const command: KonvaCommand = {
     type: 'layer',
-    id: layerId,
+    id: section.id,
     action: 'create',
     data: null,
   };
 
   sendCommand(command);
+
+  if (section.style && section.style.background_colour) {
+    const createBackground: KonvaCommand = {
+      type: 'rect',
+      id: `${section.id}_background`,
+      action: 'create',
+      layerId: section.id,
+      data: {
+        x: 0,
+        y: 0,
+        width: 1920,
+        height: 1080,
+        fill: section.style.background_colour,
+      },
+    };
+
+    sendCommand(createBackground);
+  }
 }
 
 export function deleteSlide(layerId: string, position: number) {
@@ -242,7 +261,7 @@ export function renderSlide(
       text: lines.join('\n'),
       fontSize: 130,
       fontFamily: 'Calibri',
-      fill: '#555',
+      fill: '#000000',
       width: 1920 - 40,
       padding: 20,
       align: 'center',
@@ -276,27 +295,7 @@ export function sendScale() {
   currentWindow.webContents.send('scale', {});
 }
 
-export function sendRect() {
-  if (!currentWindow) {
-    return;
-  }
-
-  createLayer('layeradfsasdf');
-
-  sendCommand({
-    type: 'rect',
-    id: 'myrectangle',
-    action: 'create',
-    layerId: 'layeradfsasdf',
-    data: {
-      x: 0,
-      y: 0,
-      width: 1920,
-      height: 1080,
-      fill: 'green',
-    },
-  });
-}
+export function sendRect() {}
 
 export function sendRedraw() {
   if (!currentWindow) {

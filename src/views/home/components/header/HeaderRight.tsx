@@ -9,6 +9,7 @@ export interface StateProps {
 
 export interface DispatchProps {
   onToggleActive: () => void;
+  onToggleBlack: () => void;
 }
 
 export type Props = StateProps & DispatchProps;
@@ -48,7 +49,9 @@ export default class HeaderRight extends React.Component<Props, any> {
     }
 
     const blackButton = (
-      <button className="btn btn-outline-secondary header-right-button">
+      <button
+        onClick={this.props.onToggleBlack}
+        className="btn btn-outline-secondary header-right-button">
         Go To Black
       </button>
     );

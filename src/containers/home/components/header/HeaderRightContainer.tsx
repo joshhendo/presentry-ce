@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import * as React from 'react';
 import * as Actions from '../../../../data/internal/Actions';
 import { StoreType } from '../../../../data/internal/Store';
+import { BLACK_SECTION_ID } from '../../../../data/internal/Constants';
 
 const mapStateToProps = function(store: StoreType): StateProps {
   return {
@@ -20,6 +21,7 @@ const mapDispatchToProps = function(
 ): DispatchProps {
   return {
     onToggleActive: Actions.toggleActive,
+    onToggleBlack: () => Actions.setCurrent(BLACK_SECTION_ID),
   };
 };
 

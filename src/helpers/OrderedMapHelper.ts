@@ -1,9 +1,34 @@
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
-import { Section } from '../components/presentations/file-reader';
+import { Section, SongSection } from '../components/presentations/file-reader';
 import { PresentationState } from '../data/internal/reducers/PresentationReducer';
+import { BLACK_SECTION_ID } from '../data/internal/Constants';
+import { v4 } from 'uuid';
+
+const blackSlide: Section = {
+  id: BLACK_SECTION_ID,
+  type: 'generic',
+  name: 'black',
+  data: {
+    title: 'black',
+    lyrics: [
+      {
+        id: '',
+        slides: [''],
+      },
+    ],
+    order: [''],
+  },
+  style: {
+    background_colour: 'black',
+  },
+};
 
 export function findCurrentSection(state: PresentationState) {
+  if (state.currentSection === BLACK_SECTION_ID) {
+    return blackSlide;
+  }
+
   return _.find(state.sections, (x: Section) => x.id === state.currentSection);
 }
 
