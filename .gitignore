@@ -67,5 +67,8 @@ dist/
 **/*.js
 **/*.js.map
 
+# but allow lib directory
+!lib/**/*.js
+
 # Well allow some javascript ;)
 !webpack.*.js
