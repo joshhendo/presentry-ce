@@ -19,6 +19,10 @@
     li {
       padding: 20px 10px;
     }
+
+    li:hover:not(.selected) {
+      background: lightblue;
+    }
   }
 
   .selected {

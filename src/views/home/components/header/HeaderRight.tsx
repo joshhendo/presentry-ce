@@ -31,14 +31,33 @@ export default class HeaderRight extends React.Component<Props, any> {
 
   render() {
     let presentationButton = (
-      <button onClick={this.props.onToggleActive}>Launch</button>
+      <button
+        onClick={this.props.onToggleActive}
+        className="btn btn-primary header-right-button">
+        Launch
+      </button>
     );
     if (this.props.isActive) {
       presentationButton = (
-        <button onClick={this.props.onToggleActive}>Stop</button>
+        <button
+          onClick={this.props.onToggleActive}
+          className="btn btn-primary header-right-button">
+          Stop
+        </button>
       );
     }
 
-    return <div className="header-right-container">{presentationButton}</div>;
+    const blackButton = (
+      <button className="btn btn-outline-secondary header-right-button">
+        Go To Black
+      </button>
+    );
+
+    return (
+      <div className="header-right-container">
+        {blackButton}
+        {presentationButton}
+      </div>
+    );
   }
 }

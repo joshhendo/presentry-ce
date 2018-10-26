@@ -125,6 +125,12 @@ function stateChanged(previousState: StoreType, state: StoreType) {
   ) {
     if (state.overallState.active) {
       LaunchPresentation();
+    } else {
+      try {
+        currentWindow.close();
+      } catch {}
+
+      currentWindow = null;
     }
   }
 

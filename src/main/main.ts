@@ -33,6 +33,8 @@ function createWindow() {
     mainWindow = null;
   });
 
+  mainWindow.setMenuBarVisibility(false);
+
   ['PageDown', 'PageUp'].forEach(key => {
     globalShortcut.register(key, () =>
       mainWindow.webContents.send('keypress', key)
