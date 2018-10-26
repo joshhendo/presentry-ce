@@ -7,7 +7,7 @@ let testConfig = {
   mode: 'development',
   entry: './tests/all-tests',
   output: {
-    filename: 'testBundle.js'
+    filename: 'testBundle.js',
   },
   node: {
     __dirname: false,
@@ -33,10 +33,10 @@ let testConfig = {
         include: [
           path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'tests'),
-        ]
-      }
-    ]
-  }
+        ],
+      },
+    ],
+  },
 };
 
 module.exports = testConfig;

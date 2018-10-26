@@ -9,7 +9,7 @@
     "start": "electron ./dist/main.bundle.js",
     "development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors",
     "production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors",
-    "test": "webpack --config ./webpack.test.js"
+    "test": "webpack --watch --config ./webpack.test.js --progress --colors"
   },
   "author": "",
   "license": "MIT",
@@ -23,6 +23,7 @@
     "jquery": "^3.3.1",
     "konva": "^2.4.2",
     "lodash": "^4.17.11",
+    "parse5": "^5.1.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-konva": "^16.5.2",
@@ -30,6 +31,7 @@
     "redux": "^4.0.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
+    "tree-flatten": "^1.0.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
@@ -38,6 +40,8 @@
     "@types/jquery": "^3.3.21",
     "@types/lodash": "^4.14.117",
     "@types/mocha": "^5.2.5",
+    "@types/nock": "^9.3.0",
+    "@types/parse5": "^5.0.0",
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.8",
     "@types/react-redux": "^6.0.9",
@@ -54,6 +58,7 @@
     "html-webpack-plugin": "^3.2.0",
     "husky": "^1.1.1",
     "mocha": "^5.2.0",
+    "nock": "^10.0.1",
     "node-sass": "^4.9.3",
     "prettier": "^1.14.3",
     "raw-loader": "^0.5.1",
