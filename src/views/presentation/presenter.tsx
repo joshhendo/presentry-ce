@@ -1,4 +1,4 @@
-import { width } from './commander';
+import { width } from '../../interop/PresentationCommander';
 
 const ipc = require('electron').ipcRenderer;
 import * as Konva from 'konva';

@@ -8,7 +8,7 @@ import { screen, remote } from 'electron';
 import * as _ from 'lodash';
 import Display = Electron.Display;
 import * as events from 'events';
-import { KonvaCommand } from '../interop/KonvaCommand';
+import { KonvaCommand } from './KonvaCommand';
 import {
   findCurrentSection,
   getCurrentSlide,

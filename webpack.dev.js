@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const NodeExternals = require('webpack-node-externals');
 
 let mainConfig = {
   mode: 'development',
@@ -75,7 +76,7 @@ let rendererConfig = {
       {
         // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
         test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|tests/,
         use: {
           loader: 'ts-loader',
         },
@@ -112,7 +113,7 @@ let rendererConfig = {
 
 let presenterConfig = {
   mode: 'development',
-  entry: './src/presenter/presenter.tsx',
+  entry: './src/views/presentation/presenter.tsx',
   target: 'electron-renderer',
   devtool: 'source-map',
   output: {
@@ -131,7 +132,7 @@ let presenterConfig = {
       {
         // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
         test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|tests/,
         use: {
           loader: 'ts-loader',
         },
@@ -158,7 +159,7 @@ let presenterConfig = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './src/presenter/canvas.html'),
+      template: path.resolve(__dirname, './src/views/presentation/canvas.html'),
       filename: 'canvas.html',
     }),
     new webpack.LoaderOptionsPlugin({
