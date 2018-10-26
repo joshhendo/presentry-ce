@@ -1,8 +1,8 @@
 import * as rp from 'request-promise';
 import * as parse5 from 'parse5';
 import * as _ from 'lodash';
-import { DefaultTreeParentNode } from "parse5";
-import { DefaultTreeElement } from "parse5";
+import { DefaultTreeParentNode } from 'parse5';
+import { DefaultTreeElement } from 'parse5';
 
 export interface PassageReference {
   book: string;
@@ -11,8 +11,8 @@ export interface PassageReference {
 }
 
 export interface PassageContent {
-  reference: PassageReference,
-  text: string,
+  reference: PassageReference;
+  text: string;
 }
 
 const baseOptions: Partial<rp.Options> = {
@@ -40,7 +40,7 @@ function buildPassageString(start: PassageReference, end: PassageReference) {
 async function parseHtml(html: string) {
   type HtmlDocument = DefaultTreeParentNode & DefaultTreeElement;
 
-  const result = await parse5.parse(html) as HtmlDocument;
+  const result = (await parse5.parse(html)) as HtmlDocument;
 
   function findVerseElements(baseElements: any) {
     const elements = [] as any[];
@@ -49,10 +49,9 @@ async function parseHtml(html: string) {
       for (const node of nodes) {
         // Check if it is a verse span
         if (node.attrs && node.attrs.length > 0) {
-          const attributeClass = _.find(node.attrs,
-            (attr) =>
-              attr.name === 'class'
-              && _.startsWith(attr.value, 'text ')
+          const attributeClass = _.find(
+            node.attrs,
+            attr => attr.name === 'class' && _.startsWith(attr.value, 'text ')
           );
 
           if (attributeClass) {
@@ -73,7 +72,10 @@ async function parseHtml(html: string) {
 
   const rawVerses: any[] = findVerseElements(result);
   const verses: PassageContent[] = _.map(rawVerses, verse => {
-    const attributeClass = _.find(verse.attrs, (attr) => attr.name === 'class' && _.startsWith(attr.value, 'text '));
+    const attributeClass = _.find(
+      verse.attrs,
+      attr => attr.name === 'class' && _.startsWith(attr.value, 'text ')
+    );
 
     if (!attributeClass) {
       throw new Error(`couldn't extract verse properly`);
@@ -91,24 +93,28 @@ async function parseHtml(html: string) {
     };
 
     const text: string = _.chain(verse.childNodes)
-      .filter((node) => node.nodeName === '#text')
-      .map((node) => node.value)
+      .filter(node => node.nodeName === '#text')
+      .map(node => node.value)
       .join('')
       .value();
 
     return {
       reference,
-      text
-    }
+      text,
+    };
   });
 
   return verses;
-
 }
 
-export async function getPassage(start: PassageReference, end?: PassageReference): Promise<PassageContent[]> {
+export async function getPassage(
+  start: PassageReference,
+  end?: PassageReference
+): Promise<PassageContent[]> {
   const options: rp.Options = {
-    url: `https://www.biblegateway.com/passage/?search=${encodeURIComponent(buildPassageString(start, end))}&version=NIV`,
+    url: `https://www.biblegateway.com/passage/?search=${encodeURIComponent(
+      buildPassageString(start, end)
+    )}&version=NIV`,
   };
 
   const html = await rp(options);

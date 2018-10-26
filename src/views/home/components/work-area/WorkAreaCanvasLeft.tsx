@@ -12,7 +12,10 @@ export interface DispatchProps {
   onSetCurrent: (id: string) => void;
 }
 
-export type Props = StateProps & DispatchProps;
+export type Props = StateProps &
+  DispatchProps & {
+    width: number;
+  };
 
 export default class WorkAreaCanvasLeft extends React.Component<Props, any> {
   constructor(props: any) {
@@ -21,7 +24,9 @@ export default class WorkAreaCanvasLeft extends React.Component<Props, any> {
 
   render() {
     return (
-      <div className="work-area-canvas-left-container">
+      <div
+        className="work-area-canvas-left-container"
+        style={{ width: this.props.width }}>
         <ul className="list">
           {[...this.props.sections].map(section => (
             <li

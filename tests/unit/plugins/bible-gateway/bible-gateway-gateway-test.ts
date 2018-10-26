@@ -1,14 +1,17 @@
 import * as bibleGatewayGateway from '../../../../src/plugins/bible-gateway/bible-gateway-gateway';
 import * as nock from 'nock';
 import * as fs from 'fs';
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 describe('unit test: bible-gateway-gateway', function() {
   let responseSample1: string = null;
 
   beforeEach(async () => {
     nock.disableNetConnect();
-    responseSample1 = fs.readFileSync('./tests/data/bg-response-sample-1.html', 'utf8');
+    responseSample1 = fs.readFileSync(
+      './tests/data/bg-response-sample-1.html',
+      'utf8'
+    );
   });
 
   afterEach(async () => {
@@ -38,12 +41,12 @@ describe('unit test: bible-gateway-gateway', function() {
       verse: 16,
     });
 
-    expect(result[0].text).to.equal('For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.');
+    expect(result[0].text).to.equal(
+      'For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.'
+    );
 
     scope.done();
   });
 
-  it('parses complex response correctly', async function() {
-
-  });
+  it('parses complex response correctly', async function() {});
 });

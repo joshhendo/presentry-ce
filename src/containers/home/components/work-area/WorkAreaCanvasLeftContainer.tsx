@@ -22,6 +22,7 @@ const mapDispatchToProps = function(
     onSetCurrent: function(id: string) {
       Actions.setCurrent(id);
     },
+    ...ownProps,
   };
 };
 
