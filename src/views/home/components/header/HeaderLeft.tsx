@@ -4,6 +4,7 @@ import './HeaderLeft.scss';
 import { loadFile } from '../../../../components/presentations/file-reader';
 
 import * as PresentationActions from '../../../../data/internal/Actions';
+import Menu from '../../../menu/Menu';
 
 export default class HeaderLeft extends React.Component<any, any> {
   constructor(props: any) {
@@ -21,7 +22,7 @@ export default class HeaderLeft extends React.Component<any, any> {
   render() {
     return (
       <div className="header-left-container">
-        <button onClick={this.loadFile}>Load Presentation</button>
+        <button onClick={this.loadFile}>Load Presentation temp</button>
       </div>
     );
   }
