@@ -25,7 +25,7 @@ const blackSlide: Section = {
   },
 };
 
-export function findCurrentSection(state: PresentationState) {
+export function findCurrentSection(state: PresentationState): any {
   if (state.currentSection === BLACK_SECTION_ID) {
     return blackSlide;
   }
@@ -33,7 +33,7 @@ export function findCurrentSection(state: PresentationState) {
   return _.find(state.sections, (x: Section) => x.id === state.currentSection);
 }
 
-export function getCurrentSlide(state: PresentationState) {
+export function getCurrentSlide(state: PresentationState): any {
   if (!state.currentSection) {
     return null;
   }
