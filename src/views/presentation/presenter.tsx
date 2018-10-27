@@ -11,6 +11,7 @@ const stage = new Konva.Stage({
   container: 'root',
   width: 1920,
   height: 1080,
+  y: 100
 });
 
 // window.innerWidth
@@ -22,9 +23,29 @@ function setScaleProperly() {
   const heightRatio = window.innerHeight / 1080;
   const scaleRatio = Math.min(widthRatio, heightRatio);
   if (scaleRatio !== 1) {
+
+    if (heightRatio === scaleRatio) {
+      // the window is too *wide*
+      // offset the X to ensure it remains centered
+
+      const offset: number = (window.innerWidth - (scaleRatio * 1920)) / 2;
+      stage.y(0);
+      stage.x(offset);
+    } else {
+      // the window is too *tall*
+      // offset the Y to ensure it remains centered
+
+      const offset: number = (window.innerHeight - (scaleRatio * 1080)) / 2;
+      stage.y(offset);
+      stage.x(0);
+    }
+
     stage.scaleX(scaleRatio);
     stage.scaleY(scaleRatio);
     stage.draw();
+  } else {
+    stage.y(0);
+    stage.x(0);
   }
 }
 setScaleProperly();

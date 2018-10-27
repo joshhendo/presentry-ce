@@ -46,8 +46,10 @@ function LaunchPresentation() {
     return;
   }
 
+  const devMode = process.env.NODE_ENV === 'development';
+
   const displays = screen.getAllDisplays();
-  if (displays.length < 2) {
+  if (displays.length < 2 && !devMode) {
     alert('You need a second display');
     return;
   }
@@ -56,16 +58,16 @@ function LaunchPresentation() {
     screen.getCursorScreenPoint()
   );
 
-  const devMode = process.env.NODE_ENV === 'development';
+
 
   let otherDisplay = _.find(
     displays,
     (d: Display) => d.id != currentDisplay.id
   );
 
-  /*if (!otherDisplay && devMode) {
+  if (!otherDisplay && devMode) {
     otherDisplay = displays[0];
-  }*/
+  }
 
   if (otherDisplay) {
     const windowOptions: any = {
@@ -79,14 +81,14 @@ function LaunchPresentation() {
     };
 
     // check for development mode
-    /*if (devMode) {
+    if (devMode) {
       windowOptions.fullscreen = false;
       windowOptions.x = 50;
       windowOptions.y = 50;
       windowOptions.width = 1920 / 2;
       windowOptions.height = 1080 / 2;
       windowOptions.frame = true;
-    }*/
+    }
 
     let presentationWindow: Electron.BrowserWindow = new remote.BrowserWindow(
       windowOptions
@@ -223,6 +225,22 @@ export function createLayer(section: Section) {
         width: 1920,
         height: 1080,
         fill: section.style.background_colour,
+      },
+    };
+
+    sendCommand(createBackground);
+  } else {
+    const createBackground: KonvaCommand = {
+      type: 'rect',
+      id: `${section.id}_background`,
+      action: 'create',
+      layerId: section.id,
+      data: {
+        x: 0,
+        y: 0,
+        width: 1920,
+        height: 1080,
+        fill: 'white',
       },
     };
 
