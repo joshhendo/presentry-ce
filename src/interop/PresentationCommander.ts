@@ -9,12 +9,37 @@ import * as _ from 'lodash';
 import Display = Electron.Display;
 import * as events from 'events';
 import { KonvaCommand } from './KonvaCommand';
-import {
-  findCurrentSection,
-  getCurrentSlide,
-} from '../helpers/OrderedMapHelper';
+import { findCurrentSection, getCurrentSlide } from '../helpers/SlideHelper';
+import { Section, SongSection } from '../components/presentations/file-reader';
+import { getHeightOfTextObject } from '../helpers/KonvaHelper';
 
 export const commanderEmitter = new events.EventEmitter();
+
+const settings = {
+  HEIGHT: 1080,
+  WIDTH: 1920,
+  song_slide: {
+    lyric: {
+      MAX_SIZE: 130,
+      LEFT_MARGIN: 30,
+      RIGHT_MARGIN: 30,
+      TOP_MARGIN: 30,
+      BOTTOM_MARGIN: 100,
+    },
+    info: {
+      MAX_SIZE: 50,
+      TOP_MARGIN: -80,
+      LEFT_MARGIN: 30,
+    },
+  },
+};
+
+function getYPos(value: number) {
+  if (value < 0) {
+    return settings.HEIGHT + value;
+  }
+  return value;
+}
 
 let currentState = null as StoreType;
 
@@ -45,8 +70,10 @@ function LaunchPresentation() {
     return;
   }
 
+  const devMode = process.env.NODE_ENV === 'development';
+
   const displays = screen.getAllDisplays();
-  if (displays.length < 2) {
+  if (displays.length < 2 && !devMode) {
     alert('You need a second display');
     return;
   }
@@ -54,8 +81,6 @@ function LaunchPresentation() {
   const currentDisplay = screen.getDisplayNearestPoint(
     screen.getCursorScreenPoint()
   );
-
-  const devMode = process.env.NODE_ENV === 'development';
 
   let otherDisplay = _.find(
     displays,
@@ -78,7 +103,7 @@ function LaunchPresentation() {
     };
 
     // check for development mode
-    if (process.env.NODE_ENV === 'development') {
+    if (devMode) {
       windowOptions.fullscreen = false;
       windowOptions.x = 50;
       windowOptions.y = 50;
@@ -125,6 +150,12 @@ function stateChanged(previousState: StoreType, state: StoreType) {
   ) {
     if (state.overallState.active) {
       LaunchPresentation();
+    } else {
+      try {
+        currentWindow.close();
+      } catch {}
+
+      currentWindow = null;
     }
   }
 
@@ -145,12 +176,12 @@ function stateChanged(previousState: StoreType, state: StoreType) {
     }
   }
 
-  const currentPresentation = findCurrentSection(state.presentationState);
-  if (!currentPresentation) {
+  const currentSection = findCurrentSection(state.presentationState);
+  if (!currentSection) {
     return;
   }
 
-  const currentPresentationId = currentPresentation.id;
+  const currentPresentationId = currentSection.id;
   const currentPresentationSlide = getCurrentSlide(state.presentationState);
 
   if (!currentPresentationSlide) {
@@ -159,19 +190,21 @@ function stateChanged(previousState: StoreType, state: StoreType) {
 
   if (previousPresentationId !== currentPresentationId) {
     deleteLayer(previousPresentationId);
-    createLayer(currentPresentationId);
+    createLayer(currentSection);
 
-    renderSlide(
+    renderSongSlide(
       currentPresentationId,
       currentPresentationSlide.position,
-      currentPresentationSlide.slides
+      currentPresentationSlide,
+      currentSection
     );
   } else if (previousPresentationSlide !== currentPresentationSlide) {
     deleteSlide(currentPresentationId, previousPresentationSlide.position);
-    renderSlide(
+    renderSongSlide(
       currentPresentationId,
       currentPresentationSlide.position,
-      currentPresentationSlide.slides
+      currentPresentationSlide,
+      currentSection
     );
   }
 }
@@ -194,15 +227,68 @@ export function deleteLayer(layerId: string) {
   sendCommand(command);
 }
 
-export function createLayer(layerId: string) {
+export function createLayer(section: Section) {
   const command: KonvaCommand = {
     type: 'layer',
-    id: layerId,
+    id: section.id,
     action: 'create',
     data: null,
   };
 
   sendCommand(command);
+
+  if (section.style && section.style.background_colour) {
+    const createBackground: KonvaCommand = {
+      type: 'rect',
+      id: `${section.id}_background`,
+      action: 'create',
+      layerId: section.id,
+      data: {
+        x: 0,
+        y: 0,
+        width: settings.WIDTH,
+        height: settings.HEIGHT,
+        fill: section.style.background_colour,
+      },
+    };
+
+    sendCommand(createBackground);
+  } else {
+    const createBackground: KonvaCommand = {
+      type: 'rect',
+      id: `${section.id}_background`,
+      action: 'create',
+      layerId: section.id,
+      data: {
+        x: 0,
+        y: 0,
+        width: settings.WIDTH,
+        height: settings.HEIGHT,
+        fill: 'white',
+      },
+    };
+
+    sendCommand(createBackground);
+  }
+
+  if (section.data.title) {
+    const createTitle: KonvaCommand = {
+      type: 'text',
+      id: `${section.id}_data`,
+      action: 'create',
+      layerId: section.id,
+      data: {
+        y: getYPos(settings.song_slide.info.TOP_MARGIN),
+        x: settings.song_slide.info.LEFT_MARGIN,
+        fill: _.get(section, 'style.text_colour') || '#000000',
+        fontSize: settings.song_slide.info.MAX_SIZE,
+        fontFamily: 'Calibri',
+        text: section.data.title,
+      },
+    };
+
+    sendCommand(createTitle);
+  }
 }
 
 export function deleteSlide(layerId: string, position: number) {
@@ -220,28 +306,47 @@ export function deleteSlide(layerId: string, position: number) {
   sendCommand(command);
 }
 
-export function renderSlide(
+export function renderSongSlide(
+  /*layerId: string,
+  position: number,
+  lines: string[]*/
   layerId: string,
   position: number,
-  lines: string[]
+  data: SongSection['lyrics'][0],
+  section: Section
 ) {
+  // const lyrics = _.find(data.lyrics, (x) => x.id === data.order[position]).slides;
+
   const command: KonvaCommand = {
     type: 'text',
     id: `${layerId}_${position}`,
     layerId: layerId,
     action: 'create',
     data: {
-      x: 20,
-      y: 60,
-      text: lines.join('\n'),
-      fontSize: 130,
+      x: settings.song_slide.lyric.LEFT_MARGIN,
+      y: settings.song_slide.lyric.TOP_MARGIN,
+      text: data.slides.join('\n'),
+      fontSize: settings.song_slide.lyric.MAX_SIZE,
       fontFamily: 'Calibri',
-      fill: '#555',
-      width: 1920 - 40,
+      fill: _.get(section, 'style.text_colour') || '#000000',
+      width:
+        settings.WIDTH -
+        settings.song_slide.lyric.LEFT_MARGIN -
+        settings.song_slide.lyric.RIGHT_MARGIN,
       padding: 20,
-      align: 'center',
+      align: _.get(section, 'style.text_alignment') || 'center',
     },
   };
+
+  while (
+    getHeightOfTextObject(command) >
+      settings.HEIGHT -
+        settings.song_slide.lyric.TOP_MARGIN -
+        settings.song_slide.lyric.BOTTOM_MARGIN &&
+    command.data.fontSize > 10
+  ) {
+    command.data.fontSize--;
+  }
 
   sendCommand(command);
 }
@@ -270,27 +375,7 @@ export function sendScale() {
   currentWindow.webContents.send('scale', {});
 }
 
-export function sendRect() {
-  if (!currentWindow) {
-    return;
-  }
-
-  createLayer('layeradfsasdf');
-
-  sendCommand({
-    type: 'rect',
-    id: 'myrectangle',
-    action: 'create',
-    layerId: 'layeradfsasdf',
-    data: {
-      x: 0,
-      y: 0,
-      width: 1920,
-      height: 1080,
-      fill: 'green',
-    },
-  });
-}
+export function sendRect() {}
 
 export function sendRedraw() {
   if (!currentWindow) {

@@ -2,30 +2,25 @@ import * as React from 'react';
 import './Footer.scss';
 import * as commander from '../../../../interop/PresentationCommander';
 import { KonvaCommand } from '../../../../interop/KonvaCommand';
+import * as Konva from 'konva';
 
 export default class Footer extends React.Component<any, any> {
   onClicked = () => {
-    commander.createLayer('mylayer');
+    const txt = new Konva.Text({
+      x: 20,
+      y: 60,
+      text:
+        "COMPLEX TEXT\n\nAll the world's a stage,\n\n\nand all the men and women merely players. They have their exits and their entrancesasdfasdfasdfasdfasfasdfasdfasdfasfasdfasdfasdfasdfasdfasdasdf.",
+      fontSize: 18,
+      fontFamily: 'Calibri',
+      fill: '#555',
+      width: 300,
+      padding: 20,
+      align: 'center',
+    });
 
-    const command: KonvaCommand = {
-      type: 'text',
-      id: 'mylayer',
-      action: 'create',
-      data: {
-        x: 20,
-        y: 60,
-        text: 'asdfasdflasdjkflasdjlaskdflajadfslfkj',
-        fontSize: 130,
-        fontFamily: 'Calibri',
-        fill: '#555',
-        width: commander.width(),
-        padding: 20,
-        align: 'center',
-        id: 'simple-text',
-      },
-    };
-
-    commander.sendCommand(command);
+    alert(txt.getTextWidth());
+    alert(txt.getHeight());
   };
 
   onClicked2 = () => {

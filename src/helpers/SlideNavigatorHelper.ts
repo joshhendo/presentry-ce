@@ -1,6 +1,6 @@
 import * as PresentationActions from '../data/internal/Actions';
 import { store } from '../data/internal/Store';
-import * as OrderedMapHelper from './OrderedMapHelper';
+import * as OrderedMapHelper from './SlideHelper';
 import * as _ from 'lodash';
 import { PresentationState } from '../data/internal/reducers/PresentationReducer';
 

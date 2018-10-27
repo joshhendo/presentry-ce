@@ -5,11 +5,18 @@ export interface ServiceFile {
   sections: Section[];
 }
 
+export interface SectionStyle {
+  background_colour: string;
+  text_colour: string;
+  text_alignment?: 'left' | 'center' | 'right';
+}
+
 export interface Section {
   id: string;
-  type: 'song' | 'bible';
+  type: 'song' | 'bible' | 'generic';
   name: string;
   data: SongSection;
+  style?: SectionStyle;
 }
 
 export interface SongSection {
@@ -39,6 +46,14 @@ export function loadFile(): ServiceFile {
                 'That saved a wretch like me',
                 'I once was lost but now am found',
                 'Was blind but now I see',
+                'Amazing grace how sweet the sound',
+                'That saved a wretch like me',
+                'I once was lost but now am found',
+                'Was blind but now I see',
+                'Amazing grace how sweet the sound',
+                'That saved a wretch like me',
+                'I once was lost but now am found',
+                'Was blind but now I see',
               ],
             },
             {
@@ -52,6 +67,11 @@ export function loadFile(): ServiceFile {
             },
           ],
           order: ['verse-1', 'verse-2', 'verse-1'],
+        },
+        style: {
+          background_colour: 'black',
+          text_colour: '#ffffff',
+          text_alignment: 'left',
         },
       },
       {

@@ -11,8 +11,8 @@ export default class WorkArea extends React.Component<any, any> {
   render() {
     return (
       <div className="work-area-container">
-        <WorkAreaNav />
         <WorkAreaCanvas />
+        <WorkAreaNav />
       </div>
     );
   }
