@@ -58,8 +58,6 @@ function LaunchPresentation() {
     screen.getCursorScreenPoint()
   );
 
-
-
   let otherDisplay = _.find(
     displays,
     (d: Display) => d.id != currentDisplay.id
