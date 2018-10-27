@@ -18,6 +18,7 @@ const stage = new Konva.Stage({
 // window.innerHeight
 // scale the stage
 window.onresize = setScaleProperly;
+window.addEventListener('fullscreenchange', setScaleProperly, false);
 function setScaleProperly() {
   const widthRatio = window.innerWidth / 1920;
   const heightRatio = window.innerHeight / 1080;

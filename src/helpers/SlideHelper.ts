@@ -21,6 +21,7 @@ const blackSlide: Section = {
   },
   style: {
     background_colour: 'black',
+    text_colour: 'black',
   },
 };
 

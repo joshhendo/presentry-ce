@@ -9,13 +9,37 @@ import * as _ from 'lodash';
 import Display = Electron.Display;
 import * as events from 'events';
 import { KonvaCommand } from './KonvaCommand';
-import {
-  findCurrentSection,
-  getCurrentSlide,
-} from '../helpers/OrderedMapHelper';
-import { Section } from '../components/presentations/file-reader';
+import { findCurrentSection, getCurrentSlide } from '../helpers/SlideHelper';
+import { Section, SongSection } from '../components/presentations/file-reader';
+import { getHeightOfTextObject } from '../helpers/KonvaHelper';
 
 export const commanderEmitter = new events.EventEmitter();
+
+const settings = {
+  HEIGHT: 1080,
+  WIDTH: 1920,
+  song_slide: {
+    lyric: {
+      MAX_SIZE: 130,
+      LEFT_MARGIN: 30,
+      RIGHT_MARGIN: 30,
+      TOP_MARGIN: 30,
+      BOTTOM_MARGIN: 100,
+    },
+    info: {
+      MAX_SIZE: 50,
+      TOP_MARGIN: -80,
+      LEFT_MARGIN: 30,
+    },
+  },
+};
+
+function getYPos(value: number) {
+  if (value < 0) {
+    return settings.HEIGHT + value;
+  }
+  return value;
+}
 
 let currentState = null as StoreType;
 
@@ -168,17 +192,19 @@ function stateChanged(previousState: StoreType, state: StoreType) {
     deleteLayer(previousPresentationId);
     createLayer(currentSection);
 
-    renderSlide(
+    renderSongSlide(
       currentPresentationId,
       currentPresentationSlide.position,
-      currentPresentationSlide.slides
+      currentPresentationSlide,
+      currentSection
     );
   } else if (previousPresentationSlide !== currentPresentationSlide) {
     deleteSlide(currentPresentationId, previousPresentationSlide.position);
-    renderSlide(
+    renderSongSlide(
       currentPresentationId,
       currentPresentationSlide.position,
-      currentPresentationSlide.slides
+      currentPresentationSlide,
+      currentSection
     );
   }
 }
@@ -220,8 +246,8 @@ export function createLayer(section: Section) {
       data: {
         x: 0,
         y: 0,
-        width: 1920,
-        height: 1080,
+        width: settings.WIDTH,
+        height: settings.HEIGHT,
         fill: section.style.background_colour,
       },
     };
@@ -236,13 +262,32 @@ export function createLayer(section: Section) {
       data: {
         x: 0,
         y: 0,
-        width: 1920,
-        height: 1080,
+        width: settings.WIDTH,
+        height: settings.HEIGHT,
         fill: 'white',
       },
     };
 
     sendCommand(createBackground);
+  }
+
+  if (section.data.title) {
+    const createTitle: KonvaCommand = {
+      type: 'text',
+      id: `${section.id}_data`,
+      action: 'create',
+      layerId: section.id,
+      data: {
+        y: getYPos(settings.song_slide.info.TOP_MARGIN),
+        x: settings.song_slide.info.LEFT_MARGIN,
+        fill: _.get(section, 'style.text_colour') || '#000000',
+        fontSize: settings.song_slide.info.MAX_SIZE,
+        fontFamily: 'Calibri',
+        text: section.data.title,
+      },
+    };
+
+    sendCommand(createTitle);
   }
 }
 
@@ -261,28 +306,47 @@ export function deleteSlide(layerId: string, position: number) {
   sendCommand(command);
 }
 
-export function renderSlide(
+export function renderSongSlide(
+  /*layerId: string,
+  position: number,
+  lines: string[]*/
   layerId: string,
   position: number,
-  lines: string[]
+  data: SongSection['lyrics'][0],
+  section: Section
 ) {
+  // const lyrics = _.find(data.lyrics, (x) => x.id === data.order[position]).slides;
+
   const command: KonvaCommand = {
     type: 'text',
     id: `${layerId}_${position}`,
     layerId: layerId,
     action: 'create',
     data: {
-      x: 20,
-      y: 60,
-      text: lines.join('\n'),
-      fontSize: 130,
+      x: settings.song_slide.lyric.LEFT_MARGIN,
+      y: settings.song_slide.lyric.TOP_MARGIN,
+      text: data.slides.join('\n'),
+      fontSize: settings.song_slide.lyric.MAX_SIZE,
       fontFamily: 'Calibri',
-      fill: '#000000',
-      width: 1920 - 40,
+      fill: _.get(section, 'style.text_colour') || '#000000',
+      width:
+        settings.WIDTH -
+        settings.song_slide.lyric.LEFT_MARGIN -
+        settings.song_slide.lyric.RIGHT_MARGIN,
       padding: 20,
       align: 'center',
     },
   };
+
+  while (
+    getHeightOfTextObject(command) >
+      settings.HEIGHT -
+        settings.song_slide.lyric.TOP_MARGIN -
+        settings.song_slide.lyric.BOTTOM_MARGIN &&
+    command.data.fontSize > 10
+  ) {
+    command.data.fontSize--;
+  }
 
   sendCommand(command);
 }

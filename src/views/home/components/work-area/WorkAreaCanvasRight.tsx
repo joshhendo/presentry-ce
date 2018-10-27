@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './WorkAreaCanvasRight.scss';
 import * as _ from 'lodash';
-import { getFullSlidesInOrder } from '../../../../helpers/OrderedMapHelper';
+import { getFullSlidesInOrder } from '../../../../helpers/SlideHelper';
 import { Section } from '../../../../components/presentations/file-reader';
 
 export interface StateProps {

@@ -7,6 +7,7 @@ export interface ServiceFile {
 
 export interface SectionStyle {
   background_colour: string;
+  text_colour: string;
 }
 
 export interface Section {
@@ -44,6 +45,14 @@ export function loadFile(): ServiceFile {
                 'That saved a wretch like me',
                 'I once was lost but now am found',
                 'Was blind but now I see',
+                'Amazing grace how sweet the sound',
+                'That saved a wretch like me',
+                'I once was lost but now am found',
+                'Was blind but now I see',
+                'Amazing grace how sweet the sound',
+                'That saved a wretch like me',
+                'I once was lost but now am found',
+                'Was blind but now I see',
               ],
             },
             {
@@ -57,6 +66,10 @@ export function loadFile(): ServiceFile {
             },
           ],
           order: ['verse-1', 'verse-2', 'verse-1'],
+        },
+        style: {
+          background_colour: 'black',
+          text_colour: '#ffffff',
         },
       },
       {

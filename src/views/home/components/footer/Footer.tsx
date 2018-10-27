@@ -2,9 +2,26 @@ import * as React from 'react';
 import './Footer.scss';
 import * as commander from '../../../../interop/PresentationCommander';
 import { KonvaCommand } from '../../../../interop/KonvaCommand';
+import * as Konva from 'konva';
 
 export default class Footer extends React.Component<any, any> {
-  onClicked = () => {};
+  onClicked = () => {
+    const txt = new Konva.Text({
+      x: 20,
+      y: 60,
+      text:
+        "COMPLEX TEXT\n\nAll the world's a stage,\n\n\nand all the men and women merely players. They have their exits and their entrancesasdfasdfasdfasdfasfasdfasdfasdfasfasdfasdfasdfasdfasdfasdasdf.",
+      fontSize: 18,
+      fontFamily: 'Calibri',
+      fill: '#555',
+      width: 300,
+      padding: 20,
+      align: 'center',
+    });
+
+    alert(txt.getTextWidth());
+    alert(txt.getHeight());
+  };
 
   onClicked2 = () => {
     commander.deleteLayer('mylayer');
