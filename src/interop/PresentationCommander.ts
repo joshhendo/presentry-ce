@@ -334,7 +334,7 @@ export function renderSongSlide(
         settings.song_slide.lyric.LEFT_MARGIN -
         settings.song_slide.lyric.RIGHT_MARGIN,
       padding: 20,
-      align: 'center',
+      align: _.get(section, 'style.text_alignment') || 'center',
     },
   };
 

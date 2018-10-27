@@ -8,6 +8,7 @@ export interface ServiceFile {
 export interface SectionStyle {
   background_colour: string;
   text_colour: string;
+  text_alignment?: 'left' | 'center' | 'right';
 }
 
 export interface Section {
@@ -70,6 +71,7 @@ export function loadFile(): ServiceFile {
         style: {
           background_colour: 'black',
           text_colour: '#ffffff',
+          text_alignment: 'left',
         },
       },
       {
