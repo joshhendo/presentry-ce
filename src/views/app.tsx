@@ -8,6 +8,7 @@ import { store } from '../data/internal/Store';
 import Settings from './settings/Settings';
 import Menu from './menu/Menu';
 import AddPassage from '../plugins/bible-gateway/views/AddPassage';
+import '../../lib/creative-spinner.css';
 
 export default function App() {
   return (
