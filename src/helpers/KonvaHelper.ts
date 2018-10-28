@@ -1,5 +1,6 @@
 import * as Konva from 'konva';
 import { KonvaCommand } from '../interop/KonvaCommand';
+import { PassageContent } from '../plugins/bible-gateway/bible-gateway-gateway';
 
 const classMapping: { [key: string]: any } = Object.freeze({
   text: Konva.Text,
@@ -22,5 +23,13 @@ export function getHeightOfTextObject(command: KonvaCommand): number {
   if (obj) {
     return obj.getHeight();
   }
+  return null;
+}
+
+export function getCommandsToWriteVerses(
+  passages: PassageContent[],
+  superScriptSize: number,
+  normalSize: number
+): KonvaCommand[] {
   return null;
 }

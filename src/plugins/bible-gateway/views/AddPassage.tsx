@@ -29,8 +29,9 @@ export default class AddPassage extends React.Component<any, any> {
 
     alert(JSON.stringify(result));
 
+    // TODO: Build this up in another function
+
     this.setState({
-      modal: false,
       goHome: true,
     });
   }

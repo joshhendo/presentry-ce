@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+import { PassageContent } from '../../plugins/bible-gateway/bible-gateway-gateway';
 
 export interface ServiceFile {
   name: string;
@@ -15,15 +16,24 @@ export interface Section {
   id: string;
   type: 'song' | 'bible' | 'generic';
   name: string;
-  data: SongSection;
+  data: SongSection | BibleSection;
   style?: SectionStyle;
 }
 
 export interface SongSection {
   title: string;
-  lyrics: {
+  content: {
     id: string;
     slides: Array<string>;
+  }[];
+  order: Array<string>;
+}
+
+export interface BibleSection {
+  title: string;
+  content: {
+    id: string;
+    passages: Array<PassageContent>;
   }[];
   order: Array<string>;
 }
@@ -34,11 +44,48 @@ export function loadFile(): ServiceFile {
     sections: [
       {
         id: v4(),
+        type: 'bible',
+        name: 'John 3:16',
+        data: {
+          title: 'John 3:16',
+          content: [
+            {
+              id: 'john_3:16',
+              passages: [
+                {
+                  reference: {
+                    book: 'John',
+                    chapter: 3,
+                    verse: 16,
+                  },
+                  text: 'For God so loved the world that whoever believes...',
+                },
+                {
+                  reference: {
+                    book: 'John',
+                    chapter: 3,
+                    verse: 17,
+                  },
+                  text: 'this is the next verse right',
+                },
+              ],
+            },
+          ],
+          order: ['john_3:16'],
+        },
+        style: {
+          background_colour: 'black',
+          text_colour: 'white',
+          text_alignment: 'left',
+        },
+      },
+      {
+        id: v4(),
         type: 'song',
         name: 'Amazing Grace',
         data: {
           title: 'Amazing Grace',
-          lyrics: [
+          content: [
             {
               id: 'verse-1',
               slides: [
@@ -80,7 +127,7 @@ export function loadFile(): ServiceFile {
         name: 'I Surrender All',
         data: {
           title: 'I Surrender All',
-          lyrics: [
+          content: [
             {
               id: 'verse-1',
               slides: [
