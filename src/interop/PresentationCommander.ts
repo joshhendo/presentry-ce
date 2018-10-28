@@ -10,8 +10,9 @@ import Display = Electron.Display;
 import * as events from 'events';
 import { KonvaCommand } from './KonvaCommand';
 import { findCurrentSection, getCurrentSlide } from '../helpers/SlideHelper';
-import { Section, SongSection } from '../components/presentations/file-reader';
+import { BibleSection, Section, SongSection } from "../components/presentations/file-reader";
 import { getHeightOfTextObject } from '../helpers/KonvaHelper';
+import { supNums } from "../helpers/ScriptHelper";
 
 export const commanderEmitter = new events.EventEmitter();
 
@@ -19,6 +20,20 @@ const settings = {
   HEIGHT: 1080,
   WIDTH: 1920,
   song_slide: {
+    lyric: {
+      MAX_SIZE: 130,
+      LEFT_MARGIN: 30,
+      RIGHT_MARGIN: 30,
+      TOP_MARGIN: 30,
+      BOTTOM_MARGIN: 100,
+    },
+    info: {
+      MAX_SIZE: 50,
+      TOP_MARGIN: -80,
+      LEFT_MARGIN: 30,
+    },
+  },
+  bible_slide: {
     lyric: {
       MAX_SIZE: 130,
       LEFT_MARGIN: 30,
@@ -70,7 +85,8 @@ function LaunchPresentation() {
     return;
   }
 
-  const devMode = process.env.NODE_ENV === 'development';
+  // const devMode = process.env.NODE_ENV === 'development';
+  const devMode = false;
 
   const displays = screen.getAllDisplays();
   if (displays.length < 2 && !devMode) {
@@ -188,11 +204,16 @@ function stateChanged(previousState: StoreType, state: StoreType) {
     return;
   }
 
+  let renderSlideCommand: any = renderSongSlide;
+  if (currentSection.type === 'bible') {
+    renderSlideCommand = renderBibleSlide;
+  }
+
   if (previousPresentationId !== currentPresentationId) {
     deleteLayer(previousPresentationId);
     createLayer(currentSection);
 
-    renderSongSlide(
+    renderSlideCommand(
       currentPresentationId,
       currentPresentationSlide.position,
       currentPresentationSlide,
@@ -200,7 +221,7 @@ function stateChanged(previousState: StoreType, state: StoreType) {
     );
   } else if (previousPresentationSlide !== currentPresentationSlide) {
     deleteSlide(currentPresentationId, previousPresentationSlide.position);
-    renderSongSlide(
+    renderSlideCommand(
       currentPresentationId,
       currentPresentationSlide.position,
       currentPresentationSlide,
@@ -306,16 +327,58 @@ export function deleteSlide(layerId: string, position: number) {
   sendCommand(command);
 }
 
-export function renderSongSlide(
-  /*layerId: string,
-  position: number,
-  lines: string[]*/
+export function renderBibleSlide(
   layerId: string,
   position: number,
-  data: SongSection['lyrics'][0],
+  data: BibleSection['content'][0],
   section: Section
 ) {
-  // const lyrics = _.find(data.lyrics, (x) => x.id === data.order[position]).slides;
+  const text = _.chain(data.passages)
+    .map((p) => `${supNums(p.reference.verse.toString(10))} ${p.text}`)
+    .join(' ')
+    .value();
+
+  const command: KonvaCommand = {
+    type: 'text',
+    id: `${layerId}_${position}`,
+    layerId: layerId,
+    action: 'create',
+    data: {
+      x: settings.bible_slide.lyric.LEFT_MARGIN,
+      y: settings.bible_slide.lyric.TOP_MARGIN,
+      text: text,
+      fontSize: settings.bible_slide.lyric.MAX_SIZE,
+      fontFamily: 'Calibri',
+      fill: _.get(section, 'style.text_colour') || '#000000',
+      width:
+        settings.WIDTH -
+        settings.bible_slide.lyric.LEFT_MARGIN -
+        settings.bible_slide.lyric.RIGHT_MARGIN,
+      padding: 20,
+      align: _.get(section, 'style.text_alignment') || 'center',
+    },
+  };
+
+  while (
+    getHeightOfTextObject(command) >
+    settings.HEIGHT -
+    settings.bible_slide.lyric.TOP_MARGIN -
+    settings.bible_slide.lyric.BOTTOM_MARGIN &&
+    command.data.fontSize > 10
+    ) {
+    command.data.fontSize--;
+  }
+
+  sendCommand(command);
+}
+
+export function renderSongSlide(
+  layerId: string,
+  position: number,
+  data: SongSection['content'][0],
+  section: Section
+) {
+  // const content = _.find(data.content, (x) => x.id === data.order[position]).slides;
 
   const command: KonvaCommand = {
     type: 'text',

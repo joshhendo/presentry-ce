@@ -15,13 +15,6 @@ export interface PassageContent {
   text: string;
 }
 
-const baseOptions: Partial<rp.Options> = {
-  url: 'https://api.esv.org/v3/passage/text/',
-  headers: {
-    Authorization: 'Token TEST',
-  },
-};
-
 function buildPassageString(start: PassageReference, end: PassageReference) {
   function buildSingleReference(ref: PassageReference): string {
     const base = `${ref.book} ${ref.chapter}`;

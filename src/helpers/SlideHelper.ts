@@ -11,7 +11,7 @@ const blackSlide: Section = {
   name: 'black',
   data: {
     title: 'black',
-    lyrics: [
+    content: [
       {
         id: '',
         slides: [''],
@@ -55,9 +55,12 @@ export function getFullSlidesInOrder(section: Section) {
 
   let counter = 0;
   const mapped = _.map(section.data.order, o => {
+
+    const slideContent = _.find(section.data.content, (l: any) => l.id === o);
+
     return {
       position: counter++,
-      ..._.find(section.data.lyrics, l => l.id === o),
+      ...slideContent
     };
   });
 
