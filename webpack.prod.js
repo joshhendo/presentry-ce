@@ -21,7 +21,7 @@ let mainConfig = {
     rules: [
       {
         // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
-        test: /\.(ts)$/,
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'ts-loader',
@@ -47,7 +47,7 @@ let mainConfig = {
 
 let rendererConfig = {
   mode: 'production',
-  entry: './src/renderer/renderer.tsx',
+  entry: './src/views/renderer.tsx',
   target: 'electron-renderer',
   output: {
     filename: 'renderer.bundle.js',
@@ -58,7 +58,7 @@ let rendererConfig = {
     __filename: false,
   },
   resolve: {
-    extensions: ['.js', '.json', '.ts', '.tsx'],
+    extensions: ['.tsx', '.json', '.ts', '.js'],
   },
   module: {
     rules: [
@@ -92,7 +92,7 @@ let rendererConfig = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './src/renderer/index.html'),
+      template: path.resolve(__dirname, './src/views/index.html'),
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
@@ -102,7 +102,7 @@ let rendererConfig = {
 
 let presenterConfig = {
   mode: 'production',
-  entry: './src/views/presentation/presenter.ts',
+  entry: './src/views/presentation/presenter.tsx',
   target: 'electron-renderer',
   output: {
     filename: 'presenter.bundle.js',

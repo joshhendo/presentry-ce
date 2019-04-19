@@ -140,7 +140,7 @@ function LaunchPresentation() {
       presentationWindow.show();
       presentationWindow.focus();
       // presentationWindow.webContents.send('message', 'hello second window');
-      presentationWindow.webContents.openDevTools();
+      // presentationWindow.webContents.openDevTools();
     });
     presentationWindow.on('closed', () => {
       (presentationWindow as any) = null;
