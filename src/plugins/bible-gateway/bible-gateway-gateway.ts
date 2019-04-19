@@ -3,6 +3,7 @@ import * as parse5 from 'parse5';
 import * as _ from 'lodash';
 import { DefaultTreeParentNode } from 'parse5';
 import { DefaultTreeElement } from 'parse5';
+import * as fs from 'fs';
 
 export interface PassageReference {
   book: string;
@@ -85,9 +86,44 @@ async function parseHtml(html: string) {
       verse: +match[3],
     };
 
-    const text: string = _.chain(verse.childNodes)
+    if (verse.parentNode.nodeName === 'h3') {
+      // this is a title, we want to strip those out
+      return null;
+    }
+
+    const verseText: string[] = [];
+    function recurseNames(nodes: any): any {
+      for (const node of nodes) {
+        if (node.nodeName === '#text') {
+          verseText.push(node.value);
+          continue;
+        }
+
+        if (node.nodeName === 'sup') {
+          // Yeah we don't want to recurse into these
+          continue;
+        }
+
+        if (_.find(node.attrs, a => a.name === 'class' && (a.value === 'chapternum' || a.value === 'versenum'))) {
+          // these neither
+          continue;
+        }
+
+        if (node.childNodes && node.childNodes.length > 0) {
+          recurseNames(node.childNodes);
+        }
+      }
+    }
+    recurseNames(verse.childNodes);
+
+    /*const text: string = _.chain(verse.childNodes)
       .filter(node => node.nodeName === '#text')
       .map(node => node.value)
+      .join('')
+      .value();*/
+
+    const text: string = _.chain(verseText)
+      .filter(x => x)
       .join('')
       .value();
 
@@ -96,6 +132,7 @@ async function parseHtml(html: string) {
       text,
     };
   });
+
 
   return verses;
 }
@@ -111,6 +148,8 @@ export async function getPassage(
   };
 
   const html = await rp(options);
+
+  fs.writeFileSync('C:\\workspace\\temp\\john3.html', html);
 
   const result = await parseHtml(html);
 

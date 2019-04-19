@@ -20,7 +20,7 @@ import { supNums } from '../helpers/ScriptHelper';
 
 export const commanderEmitter = new events.EventEmitter();
 
-const settings = {
+export const settings = {
   HEIGHT: 1080,
   WIDTH: 1920,
   song_slide: {

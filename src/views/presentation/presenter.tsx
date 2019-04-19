@@ -4,6 +4,7 @@ const ipc = require('electron').ipcRenderer;
 import * as Konva from 'konva';
 import * as $ from 'jquery';
 import { Shape } from 'konva';
+import { KonvaCommand } from "../../interop/KonvaCommand";
 
 $('#video-container').hide();
 
@@ -53,8 +54,18 @@ setScaleProperly();
 const layers: any = {};
 
 ipc.on('message', (event: any, message: any) => {
-  const command = JSON.parse(message);
+  const commands = JSON.parse(message) as KonvaCommand | KonvaCommand[];
 
+  if (Array.isArray(commands)) {
+    for (const command of commands) {
+      executeCommand(command);
+    }
+  } else {
+    executeCommand(commands);
+  }
+});
+
+function executeCommand(command: KonvaCommand) {
   let obj = null;
   if (command.action === 'tween') {
     let node = null;
@@ -92,7 +103,7 @@ ipc.on('message', (event: any, message: any) => {
   } else {
     return;
   }
-});
+}
 
 ipc.on('video', (event: any, message: any) => {
   $('#root').hide();

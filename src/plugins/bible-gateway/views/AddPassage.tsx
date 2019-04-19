@@ -5,6 +5,10 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { BibleBooks } from '../data/bible-books-static';
 import { getPassage } from '../bible-gateway-gateway';
 import { Redirect } from 'react-router';
+import { createSlides } from "../helpers/passage-slide-helper";
+import * as PresentationActions from "../../../data/internal/Actions";
+import { Section } from "../../../components/presentations/file-reader";
+import v4 = require("uuid/v4");
 
 export default class AddPassage extends React.Component<any, any> {
   constructor(props: any) {
@@ -30,6 +34,22 @@ export default class AddPassage extends React.Component<any, any> {
     alert(JSON.stringify(result));
 
     // TODO: Build this up in another function
+
+    const section = createSlides(result);
+
+    const fullSection: Section = {
+      id: v4(),
+      type: 'bible',
+      name: 'adfsasdfasdf',
+      data: section,
+      style: {
+        background_colour: 'black',
+        text_colour: 'white',
+        text_alignment: 'left',
+      },
+    };
+
+    PresentationActions.addSection(fullSection);
 
     this.setState({
       goHome: true,

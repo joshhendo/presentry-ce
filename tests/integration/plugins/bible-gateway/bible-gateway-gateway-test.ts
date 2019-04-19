@@ -18,7 +18,13 @@ describe('integration test: bible-gateway-gateway', function() {
     return true;
   });
 
-  it('another test!', function() {
+  it('does a complex test', async function() {
+    const start: bibleGatewayGateway.PassageReference = {
+      book: 'John',
+      chapter: 3,
+    };
+
+    const result = await bibleGatewayGateway.getPassage(start);
     return true;
   });
 });

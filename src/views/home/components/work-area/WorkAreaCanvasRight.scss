@@ -2,8 +2,9 @@
   min-width:200px;
   width: auto !important;
   width:200px;
+  overflow-y: auto;
 
-  flex:3;
+  flex:1;
   background-color: #ffffff;
 
   .list {
