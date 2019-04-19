@@ -9,6 +9,7 @@ import Settings from './settings/Settings';
 import Menu from './menu/Menu';
 import AddPassage from '../plugins/bible-gateway/views/AddPassage';
 import '../../lib/creative-spinner.css';
+import AddSong from '../plugins/song-creator/views/AddSong';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/" exact component={Home} />
           <Route path="/settings" component={Settings} />
           <Route path="/add/passage" component={AddPassage} />
+          <Route path="/add/song" component={AddSong} />
         </main>
       </div>
     </Provider>

@@ -5,10 +5,10 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { BibleBooks } from '../data/bible-books-static';
 import { getPassage } from '../bible-gateway-gateway';
 import { Redirect } from 'react-router';
-import { createSlides } from "../helpers/passage-slide-helper";
-import * as PresentationActions from "../../../data/internal/Actions";
-import { Section } from "../../../components/presentations/file-reader";
-import v4 = require("uuid/v4");
+import { createSlides } from '../helpers/passage-slide-helper';
+import * as PresentationActions from '../../../data/internal/Actions';
+import { Section } from '../../../components/presentations/file-reader';
+import v4 = require('uuid/v4');
 
 export default class AddPassage extends React.Component<any, any> {
   constructor(props: any) {
@@ -16,8 +16,8 @@ export default class AddPassage extends React.Component<any, any> {
     this.state = {
       modal: false,
       goHome: false,
+      from_book: 'Genesis',
     };
-    this.setState({ from_book_chapter: 'Genesis' });
   }
 
   async processPassage() {

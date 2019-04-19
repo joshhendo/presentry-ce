@@ -80,6 +80,5 @@ describe('unit test: bible-gateway-gateway', function() {
     );
 
     scope.done();
-
   });
 });

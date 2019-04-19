@@ -4,7 +4,7 @@ const ipc = require('electron').ipcRenderer;
 import * as Konva from 'konva';
 import * as $ from 'jquery';
 import { Shape } from 'konva';
-import { KonvaCommand } from "../../interop/KonvaCommand";
+import { KonvaCommand } from '../../interop/KonvaCommand';
 
 $('#video-container').hide();
 

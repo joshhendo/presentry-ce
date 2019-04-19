@@ -104,7 +104,14 @@ async function parseHtml(html: string) {
           continue;
         }
 
-        if (_.find(node.attrs, a => a.name === 'class' && (a.value === 'chapternum' || a.value === 'versenum'))) {
+        if (
+          _.find(
+            node.attrs,
+            a =>
+              a.name === 'class' &&
+              (a.value === 'chapternum' || a.value === 'versenum')
+          )
+        ) {
           // these neither
           continue;
         }
@@ -132,7 +139,6 @@ async function parseHtml(html: string) {
       text,
     };
   });
-
 
   return verses;
 }
