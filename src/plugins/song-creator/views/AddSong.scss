@@ -1,5 +1,11 @@
 .song-container {
   padding-left: 35px;
   padding-right: 10px;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+body {
+  overflow-x: auto;
+  overflow-y: auto;
 }
