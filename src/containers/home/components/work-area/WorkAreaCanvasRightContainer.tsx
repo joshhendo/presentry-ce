@@ -2,10 +2,10 @@ import WorkAreaCanvasRight, {
   StateProps,
   DispatchProps,
 } from '../../../../views/home/components/work-area/WorkAreaCanvasRight';
-const FluxContainerCreate = require('flux-container-create');
+// const FluxContainerCreate = require('flux-container-create');
 import { store, StoreType } from '../../../../data/internal/Store';
 import * as PresentationActions from '../../../../data/internal/Actions';
-import { Container } from 'flux/utils';
+// import { Container } from 'flux/utils';
 
 import * as React from 'react';
 import { OrderedMap } from 'immutable';

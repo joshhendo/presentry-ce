@@ -2,7 +2,7 @@ import HeaderRight, {
   StateProps,
   DispatchProps,
 } from '../../../../views/home/components/header/HeaderRight';
-const FluxContainerCreate = require('flux-container-create');
+// const FluxContainerCreate = require('flux-container-create');
 import { connect } from 'react-redux';
 import * as React from 'react';
 import * as Actions from '../../../../data/internal/Actions';
