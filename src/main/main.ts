@@ -1,5 +1,5 @@
 import { app, BrowserWindow, globalShortcut } from 'electron';
-import * as express from "express";
+import * as express from 'express';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -14,7 +14,6 @@ expressApp.get('/', (req, res) => res.send('served from within express'));
 expressApp.listen(port, () => {
   console.log('express is listening on port 3000');
 });
-
 
 let mainWindow: Electron.BrowserWindow;
 

@@ -7,8 +7,8 @@ import {
 import { OverallState, overallReducer } from './reducers/OverallReducer';
 
 export interface StoreType {
-  presentationState: PresentationState;
-  overallState: OverallState;
+  presentationState?: PresentationState;
+  overallState?: OverallState;
 }
 
 const reducers = {

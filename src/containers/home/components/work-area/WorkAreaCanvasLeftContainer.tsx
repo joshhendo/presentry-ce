@@ -26,7 +26,4 @@ const mapDispatchToProps = function(
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WorkAreaCanvasLeft);
+export default connect(mapStateToProps, mapDispatchToProps)(WorkAreaCanvasLeft);

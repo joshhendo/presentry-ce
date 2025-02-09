@@ -1,9 +1,9 @@
 import { width } from '../../interop/PresentationCommander';
 
 const ipc = require('electron').ipcRenderer;
-import * as Konva from 'konva';
+import Konva from 'konva';
 import * as $ from 'jquery';
-import { Shape } from 'konva';
+// import { Shape } from 'konva';
 
 $('#video-container').hide();
 

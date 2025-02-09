@@ -1,4 +1,4 @@
-import * as Konva from 'konva';
+import Konva from 'konva';
 import { KonvaCommand } from '../interop/KonvaCommand';
 
 const classMapping: { [key: string]: any } = Object.freeze({

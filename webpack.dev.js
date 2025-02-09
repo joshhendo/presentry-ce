@@ -20,6 +20,7 @@ let mainConfig = {
   resolve: {
     extensions: ['.ts', '.js', '.json'],
   },
+  externals: [NodeExternals()],
   module: {
     rules: [
       {
@@ -83,7 +84,7 @@ let rendererConfig = {
       },
       {
         test: /\.(scss|css)$/,
-        use: ['style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap'],
+        use: ['style-loader', { loader: 'css-loader', options: { sourceMap: true } }, { loader: 'sass-loader', options: { sourceMap: true } }],
       },
       {
         test: /\.(jpg|png|svg|ico|icns)$/,
@@ -139,7 +140,7 @@ let presenterConfig = {
       },
       {
         test: /\.(scss|css)$/,
-        use: ['style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap'],
+        use: ['style-loader', { loader: 'css-loader', options: { sourceMap: true } }, { loader: 'sass-loader', options: { sourceMap: true } }],
       },
       {
         test: /\.(jpg|png|svg|ico|icns)$/,
