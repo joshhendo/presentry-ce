@@ -1,17 +1,21 @@
 import Konva from 'konva';
 import { KonvaCommand } from '../interop/KonvaCommand';
 
-const classMapping: { [key: string]: any } = Object.freeze({
-  text: Konva.Text,
-  rect: Konva.Rect,
-});
-
 export function getKonvaObject(command: KonvaCommand): any {
   if (command.action === 'create') {
-    return new classMapping[command.type]({
-      ...command.data,
-      id: command.id,
-    });
+    if (command.type === 'text') {
+      return new Konva.Text({
+        ...command.data,
+        id: command.id,
+      });
+    }
+
+    if (command.type === 'rect') {
+      return new Konva.Rect({
+        ...command.data,
+        id: command.id,
+      })
+    }
   }
 
   return null;

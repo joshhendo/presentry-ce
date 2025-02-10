@@ -84,7 +84,11 @@ let rendererConfig = {
       },
       {
         test: /\.(scss|css)$/,
-        use: ['style-loader', { loader: 'css-loader', options: { sourceMap: true } }, { loader: 'sass-loader', options: { sourceMap: true } }],
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'sass-loader', options: { sourceMap: true } },
+        ],
       },
       {
         test: /\.(jpg|png|svg|ico|icns)$/,
@@ -140,7 +144,11 @@ let presenterConfig = {
       },
       {
         test: /\.(scss|css)$/,
-        use: ['style-loader', { loader: 'css-loader', options: { sourceMap: true } }, { loader: 'sass-loader', options: { sourceMap: true } }],
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'sass-loader', options: { sourceMap: true } },
+        ],
       },
       {
         test: /\.(jpg|png|svg|ico|icns)$/,

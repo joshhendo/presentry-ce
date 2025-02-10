@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router';
 import Home from './home/Home';
 const ipc = require('electron').ipcRenderer;
 import * as SlideNavigationHelper from '../helpers/SlideNavigatorHelper';
@@ -15,9 +15,11 @@ export default function App() {
       <div>
         <Menu />
         <main id="page-wrap">
-          <Route path="/" exact component={Home} />
-          <Route path="/settings" component={Settings} />
-          <Route path="/add/passage" component={AddPassage} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/add/passage" element={<AddPassage />} />
+          </Routes>
         </main>
       </div>
     </Provider>

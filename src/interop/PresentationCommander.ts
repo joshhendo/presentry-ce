@@ -4,7 +4,8 @@ This file 'commands' the presentation window. As such, everything should go thro
 
 import { store, StoreType } from '../data/internal/Store';
 
-import { screen, remote } from 'electron';
+import { screen } from '@electron/remote';
+import { getCurrentWindow, BrowserWindow } from '@electron/remote';
 import * as _ from 'lodash';
 import Display = Electron.Display;
 import * as events from 'events';
@@ -98,7 +99,7 @@ function LaunchPresentation() {
       fullscreen: true,
       x: otherDisplay.bounds.x + 50,
       y: otherDisplay.bounds.y + 50,
-      parent: remote.getCurrentWindow(),
+      parent: getCurrentWindow(),
       backgroundColor: '#000000',
     };
 
@@ -112,8 +113,14 @@ function LaunchPresentation() {
       windowOptions.frame = true;
     }
 
-    let presentationWindow: Electron.BrowserWindow = new remote.BrowserWindow(
-      windowOptions
+    let presentationWindow: Electron.BrowserWindow = new BrowserWindow(
+      {
+        ...windowOptions,
+        webPreferences: {
+          nodeIntegration: true,
+          contextIsolation: false,
+        }
+      }
     );
 
     presentationWindow.webContents.on('did-finish-load', () => {

@@ -1,8 +1,10 @@
+// Menu.tsx
 import { slide as ReactBurgerMenu } from 'react-burger-menu';
 import * as React from 'react';
-import { Route } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
-var styles = {
+const styles = {
   bmBurgerButton: {
     position: 'fixed',
     width: '20px',
@@ -40,64 +42,48 @@ var styles = {
   },
 };
 
-class Menu extends React.Component<any, any> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      open: false,
-    };
-  }
+const Menu: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-  showSettings(event: any) {
-    event.preventDefault();
-  }
+  const itemClicked = (path: string) => {
+    navigate(path);
+    setOpen(false);
+  };
 
-  itemClicked(history: any, path: string) {
-    history.push(path);
-    this.setState({
-      open: false,
-    });
-  }
-
-  render() {
-    return (
-      <ReactBurgerMenu
-        pageWrapId={'page-wrap'}
-        styles={styles}
-        isOpen={this.state.open}>
-        <Route
-          render={({ history }) => (
-            <div>
-              <div
-                id="home"
-                className="menu-item"
-                onClick={() => this.itemClicked(history, '/')}>
-                Home
-              </div>
-              <div
-                id="settings"
-                className="menu-item"
-                onClick={() => this.itemClicked(history, '/settings')}>
-                Settings
-              </div>
-              <div
-                id="add-passage"
-                className="menu-item"
-                onClick={() => this.itemClicked(history, '/add/passage')}>
-                + Add Passage
-              </div>
-              <div
-                id="add-song"
-                className="menu-item"
-                onClick={() => this.itemClicked(history, '/add/song')}>
-                + Add Song
-              </div>
-            </div>
-          )}
-        />
-      </ReactBurgerMenu>
-    );
-  }
-}
+  return (
+    <ReactBurgerMenu
+      pageWrapId="page-wrap"
+      styles={styles}
+      isOpen={open}>
+      <div>
+        <div
+          id="home"
+          className="menu-item"
+          onClick={() => itemClicked('/')}>
+          Home
+        </div>
+        <div
+          id="settings"
+          className="menu-item"
+          onClick={() => itemClicked('/settings')}>
+          Settings
+        </div>
+        <div
+          id="add-passage"
+          className="menu-item"
+          onClick={() => itemClicked('/add/passage')}>
+          + Add Passage
+        </div>
+        <div
+          id="add-song"
+          className="menu-item"
+          onClick={() => itemClicked('/add/song')}>
+          + Add Song
+        </div>
+      </div>
+    </ReactBurgerMenu>
+  );
+};
 
 export default Menu;
